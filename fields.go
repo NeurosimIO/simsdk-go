@@ -11,4 +11,5 @@ const (
 	FieldEnum      FieldType = "enum"
 	FieldTimestamp FieldType = "timestamp"
 	FieldRepeated  FieldType = "repeated"
+	FieldObject    FieldType = "object"
 )
