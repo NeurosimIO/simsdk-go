@@ -10,4 +10,5 @@ const (
 	FieldBool      FieldType = "bool"
 	FieldEnum      FieldType = "enum"
 	FieldTimestamp FieldType = "timestamp"
+	FieldRepeated  FieldType = "repeated"
 )

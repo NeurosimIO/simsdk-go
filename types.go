@@ -18,6 +18,7 @@ type FieldSpec struct {
 	EnumValues  []string // only for FieldEnum
 	Repeated    bool     // true if this field can appear multiple times
 	Description string
+	Subtype     *FieldType `json:"subtype,omitempty"`
 }
 
 // ControlFunctionType describes a non-message block that alters control flow
