@@ -13,6 +13,7 @@ type Manifest struct {
 	MessageTypes     []MessageType
 	ControlFunctions []ControlFunctionType
 	ComponentTypes   []ComponentType
+	TransportTypes   []TransportType
 }
 
 // MessageType describes a message that can be used in simulation
@@ -59,4 +60,11 @@ type ComponentType struct {
 	DisplayName string
 	Internal    bool // true if this is simulated internally
 	Description string
+}
+
+type TransportType struct {
+	ID          string // e.g., "amqp", "kafka", "mqtt"
+	DisplayName string // e.g., "AMQP 1.0", "Kafka Stream"
+	Description string
+	Internal    bool // true = core-managed transport, false = plugin-provided
 }
