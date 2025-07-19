@@ -12,13 +12,14 @@ type MessageType struct {
 // FieldSpec describes a field that must be filled in to configure a message
 // This supports code generation, validation, and UI construction
 type FieldSpec struct {
-	Name        string
-	Type        FieldType
-	Required    bool
-	EnumValues  []string // only for FieldEnum
-	Repeated    bool     // true if this field can appear multiple times
-	Description string
-	Subtype     *FieldType `json:"subtype,omitempty"`
+	Name         string
+	Type         FieldType
+	Required     bool
+	EnumValues   []string // only for FieldEnum
+	Repeated     bool     // true if this field can appear multiple times
+	Description  string
+	Subtype      *FieldType  `json:"subtype,omitempty"`
+	ObjectFields []FieldSpec `json:"objectFields,omitempty"`
 }
 
 // ControlFunctionType describes a non-message block that alters control flow
