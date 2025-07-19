@@ -15,3 +15,15 @@ type Manifest struct {
 	ComponentTypes   []ComponentType
 	TransportTypes   []TransportType
 }
+
+var registeredManifests []Manifest
+
+// RegisterManifest is called by each plugin to register itself.
+func RegisterManifest(m Manifest) {
+	registeredManifests = append(registeredManifests, m)
+}
+
+// GetAllRegisteredManifests returns all plugin manifests registered so far.
+func GetAllRegisteredManifests() []Manifest {
+	return registeredManifests
+}
