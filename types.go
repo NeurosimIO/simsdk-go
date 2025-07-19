@@ -15,6 +15,8 @@ type FieldSpec struct {
 	Name        string
 	Type        FieldType
 	Required    bool
+	EnumValues  []string // only for FieldEnum
+	Repeated    bool     // true if this field can appear multiple times
 	Description string
 }
 
