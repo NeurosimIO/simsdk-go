@@ -640,7 +640,7 @@ const file_plugin_proto_rawDesc = "" +
 	"\n" +
 	"\x06OBJECT\x10\t2E\n" +
 	"\rPluginService\x124\n" +
-	"\vGetManifest\x12\x10.simsdkrpc.Empty\x1a\x13.simsdkrpc.ManifestB:Z8github.com/neurosimio/simsdk/rpc/gen/simsdkrpc;simsdkrpcb\x06proto3"
+	"\vGetManifest\x12\x10.simsdkrpc.Empty\x1a\x13.simsdkrpc.ManifestB6Z4github.com/neurosimio/simsdk/rpc/simsdkrpc;simsdkrpcb\x06proto3"
 
 var (
 	file_plugin_proto_rawDescOnce sync.Once

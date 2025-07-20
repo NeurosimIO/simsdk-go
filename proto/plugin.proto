@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package simsdkrpc;
 
-option go_package = "github.com/neurosimio/simsdk/rpc/gen/simsdkrpc;simsdkrpc";
+option go_package = "github.com/neurosimio/simsdk/rpc/simsdkrpc;simsdkrpc";
 
 service PluginService {
   rpc GetManifest (Empty) returns (Manifest);
