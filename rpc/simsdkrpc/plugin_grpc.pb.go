@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.29.3
-// source: rpc/plugin.proto
+// source: plugin.proto
 
-package rpc
+package simsdkrpc
 
 import (
 	context "context"
@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	PluginService_GetManifest_FullMethodName = "/simsdk.PluginService/GetManifest"
+	PluginService_GetManifest_FullMethodName = "/simsdkrpc.PluginService/GetManifest"
 )
 
 // PluginServiceClient is the client API for PluginService service.
@@ -108,7 +108,7 @@ func _PluginService_GetManifest_Handler(srv interface{}, ctx context.Context, de
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var PluginService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "simsdk.PluginService",
+	ServiceName: "simsdkrpc.PluginService",
 	HandlerType: (*PluginServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -117,5 +117,5 @@ var PluginService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "rpc/plugin.proto",
+	Metadata: "plugin.proto",
 }

@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v5.29.3
-// source: rpc/plugin.proto
+// source: plugin.proto
 
-package rpc
+package simsdkrpc
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -75,11 +75,11 @@ func (x FieldType) String() string {
 }
 
 func (FieldType) Descriptor() protoreflect.EnumDescriptor {
-	return file_rpc_plugin_proto_enumTypes[0].Descriptor()
+	return file_plugin_proto_enumTypes[0].Descriptor()
 }
 
 func (FieldType) Type() protoreflect.EnumType {
-	return &file_rpc_plugin_proto_enumTypes[0]
+	return &file_plugin_proto_enumTypes[0]
 }
 
 func (x FieldType) Number() protoreflect.EnumNumber {
@@ -88,7 +88,7 @@ func (x FieldType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use FieldType.Descriptor instead.
 func (FieldType) EnumDescriptor() ([]byte, []int) {
-	return file_rpc_plugin_proto_rawDescGZIP(), []int{0}
+	return file_plugin_proto_rawDescGZIP(), []int{0}
 }
 
 type Empty struct {
@@ -99,7 +99,7 @@ type Empty struct {
 
 func (x *Empty) Reset() {
 	*x = Empty{}
-	mi := &file_rpc_plugin_proto_msgTypes[0]
+	mi := &file_plugin_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -111,7 +111,7 @@ func (x *Empty) String() string {
 func (*Empty) ProtoMessage() {}
 
 func (x *Empty) ProtoReflect() protoreflect.Message {
-	mi := &file_rpc_plugin_proto_msgTypes[0]
+	mi := &file_plugin_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -124,7 +124,7 @@ func (x *Empty) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Empty.ProtoReflect.Descriptor instead.
 func (*Empty) Descriptor() ([]byte, []int) {
-	return file_rpc_plugin_proto_rawDescGZIP(), []int{0}
+	return file_plugin_proto_rawDescGZIP(), []int{0}
 }
 
 type Manifest struct {
@@ -141,7 +141,7 @@ type Manifest struct {
 
 func (x *Manifest) Reset() {
 	*x = Manifest{}
-	mi := &file_rpc_plugin_proto_msgTypes[1]
+	mi := &file_plugin_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -153,7 +153,7 @@ func (x *Manifest) String() string {
 func (*Manifest) ProtoMessage() {}
 
 func (x *Manifest) ProtoReflect() protoreflect.Message {
-	mi := &file_rpc_plugin_proto_msgTypes[1]
+	mi := &file_plugin_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -166,7 +166,7 @@ func (x *Manifest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Manifest.ProtoReflect.Descriptor instead.
 func (*Manifest) Descriptor() ([]byte, []int) {
-	return file_rpc_plugin_proto_rawDescGZIP(), []int{1}
+	return file_plugin_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *Manifest) GetName() string {
@@ -223,7 +223,7 @@ type MessageType struct {
 
 func (x *MessageType) Reset() {
 	*x = MessageType{}
-	mi := &file_rpc_plugin_proto_msgTypes[2]
+	mi := &file_plugin_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -235,7 +235,7 @@ func (x *MessageType) String() string {
 func (*MessageType) ProtoMessage() {}
 
 func (x *MessageType) ProtoReflect() protoreflect.Message {
-	mi := &file_rpc_plugin_proto_msgTypes[2]
+	mi := &file_plugin_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -248,7 +248,7 @@ func (x *MessageType) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MessageType.ProtoReflect.Descriptor instead.
 func (*MessageType) Descriptor() ([]byte, []int) {
-	return file_rpc_plugin_proto_rawDescGZIP(), []int{2}
+	return file_plugin_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *MessageType) GetId() string {
@@ -291,7 +291,7 @@ type ControlFunctionType struct {
 
 func (x *ControlFunctionType) Reset() {
 	*x = ControlFunctionType{}
-	mi := &file_rpc_plugin_proto_msgTypes[3]
+	mi := &file_plugin_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -303,7 +303,7 @@ func (x *ControlFunctionType) String() string {
 func (*ControlFunctionType) ProtoMessage() {}
 
 func (x *ControlFunctionType) ProtoReflect() protoreflect.Message {
-	mi := &file_rpc_plugin_proto_msgTypes[3]
+	mi := &file_plugin_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -316,7 +316,7 @@ func (x *ControlFunctionType) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ControlFunctionType.ProtoReflect.Descriptor instead.
 func (*ControlFunctionType) Descriptor() ([]byte, []int) {
-	return file_rpc_plugin_proto_rawDescGZIP(), []int{3}
+	return file_plugin_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ControlFunctionType) GetId() string {
@@ -359,7 +359,7 @@ type ComponentType struct {
 
 func (x *ComponentType) Reset() {
 	*x = ComponentType{}
-	mi := &file_rpc_plugin_proto_msgTypes[4]
+	mi := &file_plugin_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -371,7 +371,7 @@ func (x *ComponentType) String() string {
 func (*ComponentType) ProtoMessage() {}
 
 func (x *ComponentType) ProtoReflect() protoreflect.Message {
-	mi := &file_rpc_plugin_proto_msgTypes[4]
+	mi := &file_plugin_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -384,7 +384,7 @@ func (x *ComponentType) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ComponentType.ProtoReflect.Descriptor instead.
 func (*ComponentType) Descriptor() ([]byte, []int) {
-	return file_rpc_plugin_proto_rawDescGZIP(), []int{4}
+	return file_plugin_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *ComponentType) GetId() string {
@@ -427,7 +427,7 @@ type TransportType struct {
 
 func (x *TransportType) Reset() {
 	*x = TransportType{}
-	mi := &file_rpc_plugin_proto_msgTypes[5]
+	mi := &file_plugin_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -439,7 +439,7 @@ func (x *TransportType) String() string {
 func (*TransportType) ProtoMessage() {}
 
 func (x *TransportType) ProtoReflect() protoreflect.Message {
-	mi := &file_rpc_plugin_proto_msgTypes[5]
+	mi := &file_plugin_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -452,7 +452,7 @@ func (x *TransportType) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TransportType.ProtoReflect.Descriptor instead.
 func (*TransportType) Descriptor() ([]byte, []int) {
-	return file_rpc_plugin_proto_rawDescGZIP(), []int{5}
+	return file_plugin_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *TransportType) GetId() string {
@@ -486,12 +486,12 @@ func (x *TransportType) GetInternal() bool {
 type FieldSpec struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Type          FieldType              `protobuf:"varint,2,opt,name=type,proto3,enum=simsdk.FieldType" json:"type,omitempty"`
+	Type          FieldType              `protobuf:"varint,2,opt,name=type,proto3,enum=simsdkrpc.FieldType" json:"type,omitempty"`
 	Required      bool                   `protobuf:"varint,3,opt,name=required,proto3" json:"required,omitempty"`
 	EnumValues    []string               `protobuf:"bytes,4,rep,name=enum_values,json=enumValues,proto3" json:"enum_values,omitempty"`
 	Repeated      bool                   `protobuf:"varint,5,opt,name=repeated,proto3" json:"repeated,omitempty"`
 	Description   string                 `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty"`
-	Subtype       FieldType              `protobuf:"varint,7,opt,name=subtype,proto3,enum=simsdk.FieldType" json:"subtype,omitempty"`
+	Subtype       FieldType              `protobuf:"varint,7,opt,name=subtype,proto3,enum=simsdkrpc.FieldType" json:"subtype,omitempty"`
 	ObjectFields  []*FieldSpec           `protobuf:"bytes,8,rep,name=object_fields,json=objectFields,proto3" json:"object_fields,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -499,7 +499,7 @@ type FieldSpec struct {
 
 func (x *FieldSpec) Reset() {
 	*x = FieldSpec{}
-	mi := &file_rpc_plugin_proto_msgTypes[6]
+	mi := &file_plugin_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -511,7 +511,7 @@ func (x *FieldSpec) String() string {
 func (*FieldSpec) ProtoMessage() {}
 
 func (x *FieldSpec) ProtoReflect() protoreflect.Message {
-	mi := &file_rpc_plugin_proto_msgTypes[6]
+	mi := &file_plugin_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -524,7 +524,7 @@ func (x *FieldSpec) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FieldSpec.ProtoReflect.Descriptor instead.
 func (*FieldSpec) Descriptor() ([]byte, []int) {
-	return file_rpc_plugin_proto_rawDescGZIP(), []int{6}
+	return file_plugin_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *FieldSpec) GetName() string {
@@ -583,29 +583,29 @@ func (x *FieldSpec) GetObjectFields() []*FieldSpec {
 	return nil
 }
 
-var File_rpc_plugin_proto protoreflect.FileDescriptor
+var File_plugin_proto protoreflect.FileDescriptor
 
-const file_rpc_plugin_proto_rawDesc = "" +
+const file_plugin_proto_rawDesc = "" +
 	"\n" +
-	"\x10rpc/plugin.proto\x12\x06simsdk\"\a\n" +
-	"\x05Empty\"\xbc\x02\n" +
+	"\fplugin.proto\x12\tsimsdkrpc\"\a\n" +
+	"\x05Empty\"\xc8\x02\n" +
 	"\bManifest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
-	"\aversion\x18\x02 \x01(\tR\aversion\x128\n" +
-	"\rmessage_types\x18\x03 \x03(\v2\x13.simsdk.MessageTypeR\fmessageTypes\x12H\n" +
-	"\x11control_functions\x18\x04 \x03(\v2\x1b.simsdk.ControlFunctionTypeR\x10controlFunctions\x12>\n" +
-	"\x0fcomponent_types\x18\x05 \x03(\v2\x15.simsdk.ComponentTypeR\x0ecomponentTypes\x12>\n" +
-	"\x0ftransport_types\x18\x06 \x03(\v2\x15.simsdk.TransportTypeR\x0etransportTypes\"\x8d\x01\n" +
+	"\aversion\x18\x02 \x01(\tR\aversion\x12;\n" +
+	"\rmessage_types\x18\x03 \x03(\v2\x16.simsdkrpc.MessageTypeR\fmessageTypes\x12K\n" +
+	"\x11control_functions\x18\x04 \x03(\v2\x1e.simsdkrpc.ControlFunctionTypeR\x10controlFunctions\x12A\n" +
+	"\x0fcomponent_types\x18\x05 \x03(\v2\x18.simsdkrpc.ComponentTypeR\x0ecomponentTypes\x12A\n" +
+	"\x0ftransport_types\x18\x06 \x03(\v2\x18.simsdkrpc.TransportTypeR\x0etransportTypes\"\x90\x01\n" +
 	"\vMessageType\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
 	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12)\n" +
-	"\x06fields\x18\x04 \x03(\v2\x11.simsdk.FieldSpecR\x06fields\"\x95\x01\n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12,\n" +
+	"\x06fields\x18\x04 \x03(\v2\x14.simsdkrpc.FieldSpecR\x06fields\"\x98\x01\n" +
 	"\x13ControlFunctionType\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
 	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12)\n" +
-	"\x06fields\x18\x04 \x03(\v2\x11.simsdk.FieldSpecR\x06fields\"\x80\x01\n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12,\n" +
+	"\x06fields\x18\x04 \x03(\v2\x14.simsdkrpc.FieldSpecR\x06fields\"\x80\x01\n" +
 	"\rComponentType\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
 	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x12\x1a\n" +
@@ -615,17 +615,17 @@ const file_rpc_plugin_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
 	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1a\n" +
-	"\binternal\x18\x04 \x01(\bR\binternal\"\xa6\x02\n" +
+	"\binternal\x18\x04 \x01(\bR\binternal\"\xaf\x02\n" +
 	"\tFieldSpec\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12%\n" +
-	"\x04type\x18\x02 \x01(\x0e2\x11.simsdk.FieldTypeR\x04type\x12\x1a\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12(\n" +
+	"\x04type\x18\x02 \x01(\x0e2\x14.simsdkrpc.FieldTypeR\x04type\x12\x1a\n" +
 	"\brequired\x18\x03 \x01(\bR\brequired\x12\x1f\n" +
 	"\venum_values\x18\x04 \x03(\tR\n" +
 	"enumValues\x12\x1a\n" +
 	"\brepeated\x18\x05 \x01(\bR\brepeated\x12 \n" +
-	"\vdescription\x18\x06 \x01(\tR\vdescription\x12+\n" +
-	"\asubtype\x18\a \x01(\x0e2\x11.simsdk.FieldTypeR\asubtype\x126\n" +
-	"\robject_fields\x18\b \x03(\v2\x11.simsdk.FieldSpecR\fobjectFields*\x8e\x01\n" +
+	"\vdescription\x18\x06 \x01(\tR\vdescription\x12.\n" +
+	"\asubtype\x18\a \x01(\x0e2\x14.simsdkrpc.FieldTypeR\asubtype\x129\n" +
+	"\robject_fields\x18\b \x03(\v2\x14.simsdkrpc.FieldSpecR\fobjectFields*\x8e\x01\n" +
 	"\tFieldType\x12\x1a\n" +
 	"\x16FIELD_TYPE_UNSPECIFIED\x10\x00\x12\n" +
 	"\n" +
@@ -638,46 +638,46 @@ const file_rpc_plugin_proto_rawDesc = "" +
 	"\tTIMESTAMP\x10\a\x12\f\n" +
 	"\bREPEATED\x10\b\x12\n" +
 	"\n" +
-	"\x06OBJECT\x10\t2?\n" +
-	"\rPluginService\x12.\n" +
-	"\vGetManifest\x12\r.simsdk.Empty\x1a\x10.simsdk.ManifestB&Z$github.com/neurosimio/simsdk/rpc;rpcb\x06proto3"
+	"\x06OBJECT\x10\t2E\n" +
+	"\rPluginService\x124\n" +
+	"\vGetManifest\x12\x10.simsdkrpc.Empty\x1a\x13.simsdkrpc.ManifestB:Z8github.com/neurosimio/simsdk/rpc/gen/simsdkrpc;simsdkrpcb\x06proto3"
 
 var (
-	file_rpc_plugin_proto_rawDescOnce sync.Once
-	file_rpc_plugin_proto_rawDescData []byte
+	file_plugin_proto_rawDescOnce sync.Once
+	file_plugin_proto_rawDescData []byte
 )
 
-func file_rpc_plugin_proto_rawDescGZIP() []byte {
-	file_rpc_plugin_proto_rawDescOnce.Do(func() {
-		file_rpc_plugin_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_rpc_plugin_proto_rawDesc), len(file_rpc_plugin_proto_rawDesc)))
+func file_plugin_proto_rawDescGZIP() []byte {
+	file_plugin_proto_rawDescOnce.Do(func() {
+		file_plugin_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_plugin_proto_rawDesc), len(file_plugin_proto_rawDesc)))
 	})
-	return file_rpc_plugin_proto_rawDescData
+	return file_plugin_proto_rawDescData
 }
 
-var file_rpc_plugin_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_rpc_plugin_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
-var file_rpc_plugin_proto_goTypes = []any{
-	(FieldType)(0),              // 0: simsdk.FieldType
-	(*Empty)(nil),               // 1: simsdk.Empty
-	(*Manifest)(nil),            // 2: simsdk.Manifest
-	(*MessageType)(nil),         // 3: simsdk.MessageType
-	(*ControlFunctionType)(nil), // 4: simsdk.ControlFunctionType
-	(*ComponentType)(nil),       // 5: simsdk.ComponentType
-	(*TransportType)(nil),       // 6: simsdk.TransportType
-	(*FieldSpec)(nil),           // 7: simsdk.FieldSpec
+var file_plugin_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_plugin_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_plugin_proto_goTypes = []any{
+	(FieldType)(0),              // 0: simsdkrpc.FieldType
+	(*Empty)(nil),               // 1: simsdkrpc.Empty
+	(*Manifest)(nil),            // 2: simsdkrpc.Manifest
+	(*MessageType)(nil),         // 3: simsdkrpc.MessageType
+	(*ControlFunctionType)(nil), // 4: simsdkrpc.ControlFunctionType
+	(*ComponentType)(nil),       // 5: simsdkrpc.ComponentType
+	(*TransportType)(nil),       // 6: simsdkrpc.TransportType
+	(*FieldSpec)(nil),           // 7: simsdkrpc.FieldSpec
 }
-var file_rpc_plugin_proto_depIdxs = []int32{
-	3,  // 0: simsdk.Manifest.message_types:type_name -> simsdk.MessageType
-	4,  // 1: simsdk.Manifest.control_functions:type_name -> simsdk.ControlFunctionType
-	5,  // 2: simsdk.Manifest.component_types:type_name -> simsdk.ComponentType
-	6,  // 3: simsdk.Manifest.transport_types:type_name -> simsdk.TransportType
-	7,  // 4: simsdk.MessageType.fields:type_name -> simsdk.FieldSpec
-	7,  // 5: simsdk.ControlFunctionType.fields:type_name -> simsdk.FieldSpec
-	0,  // 6: simsdk.FieldSpec.type:type_name -> simsdk.FieldType
-	0,  // 7: simsdk.FieldSpec.subtype:type_name -> simsdk.FieldType
-	7,  // 8: simsdk.FieldSpec.object_fields:type_name -> simsdk.FieldSpec
-	1,  // 9: simsdk.PluginService.GetManifest:input_type -> simsdk.Empty
-	2,  // 10: simsdk.PluginService.GetManifest:output_type -> simsdk.Manifest
+var file_plugin_proto_depIdxs = []int32{
+	3,  // 0: simsdkrpc.Manifest.message_types:type_name -> simsdkrpc.MessageType
+	4,  // 1: simsdkrpc.Manifest.control_functions:type_name -> simsdkrpc.ControlFunctionType
+	5,  // 2: simsdkrpc.Manifest.component_types:type_name -> simsdkrpc.ComponentType
+	6,  // 3: simsdkrpc.Manifest.transport_types:type_name -> simsdkrpc.TransportType
+	7,  // 4: simsdkrpc.MessageType.fields:type_name -> simsdkrpc.FieldSpec
+	7,  // 5: simsdkrpc.ControlFunctionType.fields:type_name -> simsdkrpc.FieldSpec
+	0,  // 6: simsdkrpc.FieldSpec.type:type_name -> simsdkrpc.FieldType
+	0,  // 7: simsdkrpc.FieldSpec.subtype:type_name -> simsdkrpc.FieldType
+	7,  // 8: simsdkrpc.FieldSpec.object_fields:type_name -> simsdkrpc.FieldSpec
+	1,  // 9: simsdkrpc.PluginService.GetManifest:input_type -> simsdkrpc.Empty
+	2,  // 10: simsdkrpc.PluginService.GetManifest:output_type -> simsdkrpc.Manifest
 	10, // [10:11] is the sub-list for method output_type
 	9,  // [9:10] is the sub-list for method input_type
 	9,  // [9:9] is the sub-list for extension type_name
@@ -685,27 +685,27 @@ var file_rpc_plugin_proto_depIdxs = []int32{
 	0,  // [0:9] is the sub-list for field type_name
 }
 
-func init() { file_rpc_plugin_proto_init() }
-func file_rpc_plugin_proto_init() {
-	if File_rpc_plugin_proto != nil {
+func init() { file_plugin_proto_init() }
+func file_plugin_proto_init() {
+	if File_plugin_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_rpc_plugin_proto_rawDesc), len(file_rpc_plugin_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_plugin_proto_rawDesc), len(file_plugin_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_rpc_plugin_proto_goTypes,
-		DependencyIndexes: file_rpc_plugin_proto_depIdxs,
-		EnumInfos:         file_rpc_plugin_proto_enumTypes,
-		MessageInfos:      file_rpc_plugin_proto_msgTypes,
+		GoTypes:           file_plugin_proto_goTypes,
+		DependencyIndexes: file_plugin_proto_depIdxs,
+		EnumInfos:         file_plugin_proto_enumTypes,
+		MessageInfos:      file_plugin_proto_msgTypes,
 	}.Build()
-	File_rpc_plugin_proto = out.File
-	file_rpc_plugin_proto_goTypes = nil
-	file_rpc_plugin_proto_depIdxs = nil
+	File_plugin_proto = out.File
+	file_plugin_proto_goTypes = nil
+	file_plugin_proto_depIdxs = nil
 }
