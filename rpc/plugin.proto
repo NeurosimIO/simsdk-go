@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package simsdk;
+
+option go_package = "github.com/neurosimio/simsdk/rpc;rpc";
+
+service PluginService {
+  rpc GetManifest (Empty) returns (Manifest);
+}
+
+message Empty {}
+
+message Manifest {
+  string name = 1;
+  string version = 2;
+  repeated MessageType message_types = 3;
+  repeated ControlFunctionType control_functions = 4;
+  repeated ComponentType component_types = 5;
+  repeated TransportType transport_types = 6;
+}
+
+message MessageType {
+  string id = 1;
+  string display_name = 2;
+  string description = 3;
+  repeated FieldSpec fields = 4;
+}
+
+message ControlFunctionType {
+  string id = 1;
+  string display_name = 2;
+  string description = 3;
+  repeated FieldSpec fields = 4;
+}
+
+message ComponentType {
+  string id = 1;
+  string display_name = 2;
+  bool internal = 3;
+  string description = 4;
+}
+
+message TransportType {
+  string id = 1;
+  string display_name = 2;
+  string description = 3;
+  bool internal = 4;
+}
+
+message FieldSpec {
+  string name = 1;
+  FieldType type = 2;
+  bool required = 3;
+  repeated string enum_values = 4;
+  bool repeated = 5;
+  string description = 6;
+  FieldType subtype = 7;
+  repeated FieldSpec object_fields = 8;
+}
+
+enum FieldType {
+  FIELD_TYPE_UNSPECIFIED = 0;
+  STRING = 1;
+  INT = 2;
+  UINT = 3;
+  FLOAT = 4;
+  BOOL = 5;
+  ENUM = 6;
+  TIMESTAMP = 7;
+  REPEATED = 8;
+  OBJECT = 9;
+}

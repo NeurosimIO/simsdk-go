@@ -28,3 +28,7 @@ Each plugin is compiled as an isolated Go binary and communicates with the simul
 | sim-core       |  <---->  | your-plugin.bin  |
 |                |   gRPC   |                  |
 +----------------+          +------------------+
+
+```bash
+go get github.com/neurosimio/simsdk@latest
+```
