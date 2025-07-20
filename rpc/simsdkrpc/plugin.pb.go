@@ -91,42 +91,6 @@ func (FieldType) EnumDescriptor() ([]byte, []int) {
 	return file_plugin_proto_rawDescGZIP(), []int{0}
 }
 
-type Empty struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *Empty) Reset() {
-	*x = Empty{}
-	mi := &file_plugin_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Empty) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Empty) ProtoMessage() {}
-
-func (x *Empty) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Empty.ProtoReflect.Descriptor instead.
-func (*Empty) Descriptor() ([]byte, []int) {
-	return file_plugin_proto_rawDescGZIP(), []int{0}
-}
-
 type ManifestRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -135,7 +99,7 @@ type ManifestRequest struct {
 
 func (x *ManifestRequest) Reset() {
 	*x = ManifestRequest{}
-	mi := &file_plugin_proto_msgTypes[1]
+	mi := &file_plugin_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -147,7 +111,7 @@ func (x *ManifestRequest) String() string {
 func (*ManifestRequest) ProtoMessage() {}
 
 func (x *ManifestRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_proto_msgTypes[1]
+	mi := &file_plugin_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -160,7 +124,7 @@ func (x *ManifestRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ManifestRequest.ProtoReflect.Descriptor instead.
 func (*ManifestRequest) Descriptor() ([]byte, []int) {
-	return file_plugin_proto_rawDescGZIP(), []int{1}
+	return file_plugin_proto_rawDescGZIP(), []int{0}
 }
 
 type ManifestResponse struct {
@@ -172,7 +136,7 @@ type ManifestResponse struct {
 
 func (x *ManifestResponse) Reset() {
 	*x = ManifestResponse{}
-	mi := &file_plugin_proto_msgTypes[2]
+	mi := &file_plugin_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -184,7 +148,7 @@ func (x *ManifestResponse) String() string {
 func (*ManifestResponse) ProtoMessage() {}
 
 func (x *ManifestResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_proto_msgTypes[2]
+	mi := &file_plugin_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -197,7 +161,7 @@ func (x *ManifestResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ManifestResponse.ProtoReflect.Descriptor instead.
 func (*ManifestResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_proto_rawDescGZIP(), []int{2}
+	return file_plugin_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ManifestResponse) GetManifest() *Manifest {
@@ -221,7 +185,7 @@ type Manifest struct {
 
 func (x *Manifest) Reset() {
 	*x = Manifest{}
-	mi := &file_plugin_proto_msgTypes[3]
+	mi := &file_plugin_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -233,7 +197,7 @@ func (x *Manifest) String() string {
 func (*Manifest) ProtoMessage() {}
 
 func (x *Manifest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_proto_msgTypes[3]
+	mi := &file_plugin_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -246,7 +210,7 @@ func (x *Manifest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Manifest.ProtoReflect.Descriptor instead.
 func (*Manifest) Descriptor() ([]byte, []int) {
-	return file_plugin_proto_rawDescGZIP(), []int{3}
+	return file_plugin_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *Manifest) GetName() string {
@@ -303,7 +267,7 @@ type MessageType struct {
 
 func (x *MessageType) Reset() {
 	*x = MessageType{}
-	mi := &file_plugin_proto_msgTypes[4]
+	mi := &file_plugin_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -315,7 +279,7 @@ func (x *MessageType) String() string {
 func (*MessageType) ProtoMessage() {}
 
 func (x *MessageType) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_proto_msgTypes[4]
+	mi := &file_plugin_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -328,7 +292,7 @@ func (x *MessageType) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MessageType.ProtoReflect.Descriptor instead.
 func (*MessageType) Descriptor() ([]byte, []int) {
-	return file_plugin_proto_rawDescGZIP(), []int{4}
+	return file_plugin_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *MessageType) GetId() string {
@@ -371,7 +335,7 @@ type ControlFunctionType struct {
 
 func (x *ControlFunctionType) Reset() {
 	*x = ControlFunctionType{}
-	mi := &file_plugin_proto_msgTypes[5]
+	mi := &file_plugin_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -383,7 +347,7 @@ func (x *ControlFunctionType) String() string {
 func (*ControlFunctionType) ProtoMessage() {}
 
 func (x *ControlFunctionType) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_proto_msgTypes[5]
+	mi := &file_plugin_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -396,7 +360,7 @@ func (x *ControlFunctionType) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ControlFunctionType.ProtoReflect.Descriptor instead.
 func (*ControlFunctionType) Descriptor() ([]byte, []int) {
-	return file_plugin_proto_rawDescGZIP(), []int{5}
+	return file_plugin_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *ControlFunctionType) GetId() string {
@@ -439,7 +403,7 @@ type ComponentType struct {
 
 func (x *ComponentType) Reset() {
 	*x = ComponentType{}
-	mi := &file_plugin_proto_msgTypes[6]
+	mi := &file_plugin_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -451,7 +415,7 @@ func (x *ComponentType) String() string {
 func (*ComponentType) ProtoMessage() {}
 
 func (x *ComponentType) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_proto_msgTypes[6]
+	mi := &file_plugin_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -464,7 +428,7 @@ func (x *ComponentType) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ComponentType.ProtoReflect.Descriptor instead.
 func (*ComponentType) Descriptor() ([]byte, []int) {
-	return file_plugin_proto_rawDescGZIP(), []int{6}
+	return file_plugin_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ComponentType) GetId() string {
@@ -507,7 +471,7 @@ type TransportType struct {
 
 func (x *TransportType) Reset() {
 	*x = TransportType{}
-	mi := &file_plugin_proto_msgTypes[7]
+	mi := &file_plugin_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -519,7 +483,7 @@ func (x *TransportType) String() string {
 func (*TransportType) ProtoMessage() {}
 
 func (x *TransportType) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_proto_msgTypes[7]
+	mi := &file_plugin_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -532,7 +496,7 @@ func (x *TransportType) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TransportType.ProtoReflect.Descriptor instead.
 func (*TransportType) Descriptor() ([]byte, []int) {
-	return file_plugin_proto_rawDescGZIP(), []int{7}
+	return file_plugin_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *TransportType) GetId() string {
@@ -579,7 +543,7 @@ type FieldSpec struct {
 
 func (x *FieldSpec) Reset() {
 	*x = FieldSpec{}
-	mi := &file_plugin_proto_msgTypes[8]
+	mi := &file_plugin_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -591,7 +555,7 @@ func (x *FieldSpec) String() string {
 func (*FieldSpec) ProtoMessage() {}
 
 func (x *FieldSpec) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_proto_msgTypes[8]
+	mi := &file_plugin_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -604,7 +568,7 @@ func (x *FieldSpec) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FieldSpec.ProtoReflect.Descriptor instead.
 func (*FieldSpec) Descriptor() ([]byte, []int) {
-	return file_plugin_proto_rawDescGZIP(), []int{8}
+	return file_plugin_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *FieldSpec) GetName() string {
@@ -667,8 +631,7 @@ var File_plugin_proto protoreflect.FileDescriptor
 
 const file_plugin_proto_rawDesc = "" +
 	"\n" +
-	"\fplugin.proto\x12\tsimsdkrpc\"\a\n" +
-	"\x05Empty\"\x11\n" +
+	"\fplugin.proto\x12\tsimsdkrpc\"\x11\n" +
 	"\x0fManifestRequest\"C\n" +
 	"\x10ManifestResponse\x12/\n" +
 	"\bmanifest\x18\x01 \x01(\v2\x13.simsdkrpc.ManifestR\bmanifest\"\xc8\x02\n" +
@@ -738,32 +701,31 @@ func file_plugin_proto_rawDescGZIP() []byte {
 }
 
 var file_plugin_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_plugin_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_plugin_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_plugin_proto_goTypes = []any{
 	(FieldType)(0),              // 0: simsdkrpc.FieldType
-	(*Empty)(nil),               // 1: simsdkrpc.Empty
-	(*ManifestRequest)(nil),     // 2: simsdkrpc.ManifestRequest
-	(*ManifestResponse)(nil),    // 3: simsdkrpc.ManifestResponse
-	(*Manifest)(nil),            // 4: simsdkrpc.Manifest
-	(*MessageType)(nil),         // 5: simsdkrpc.MessageType
-	(*ControlFunctionType)(nil), // 6: simsdkrpc.ControlFunctionType
-	(*ComponentType)(nil),       // 7: simsdkrpc.ComponentType
-	(*TransportType)(nil),       // 8: simsdkrpc.TransportType
-	(*FieldSpec)(nil),           // 9: simsdkrpc.FieldSpec
+	(*ManifestRequest)(nil),     // 1: simsdkrpc.ManifestRequest
+	(*ManifestResponse)(nil),    // 2: simsdkrpc.ManifestResponse
+	(*Manifest)(nil),            // 3: simsdkrpc.Manifest
+	(*MessageType)(nil),         // 4: simsdkrpc.MessageType
+	(*ControlFunctionType)(nil), // 5: simsdkrpc.ControlFunctionType
+	(*ComponentType)(nil),       // 6: simsdkrpc.ComponentType
+	(*TransportType)(nil),       // 7: simsdkrpc.TransportType
+	(*FieldSpec)(nil),           // 8: simsdkrpc.FieldSpec
 }
 var file_plugin_proto_depIdxs = []int32{
-	4,  // 0: simsdkrpc.ManifestResponse.manifest:type_name -> simsdkrpc.Manifest
-	5,  // 1: simsdkrpc.Manifest.message_types:type_name -> simsdkrpc.MessageType
-	6,  // 2: simsdkrpc.Manifest.control_functions:type_name -> simsdkrpc.ControlFunctionType
-	7,  // 3: simsdkrpc.Manifest.component_types:type_name -> simsdkrpc.ComponentType
-	8,  // 4: simsdkrpc.Manifest.transport_types:type_name -> simsdkrpc.TransportType
-	9,  // 5: simsdkrpc.MessageType.fields:type_name -> simsdkrpc.FieldSpec
-	9,  // 6: simsdkrpc.ControlFunctionType.fields:type_name -> simsdkrpc.FieldSpec
+	3,  // 0: simsdkrpc.ManifestResponse.manifest:type_name -> simsdkrpc.Manifest
+	4,  // 1: simsdkrpc.Manifest.message_types:type_name -> simsdkrpc.MessageType
+	5,  // 2: simsdkrpc.Manifest.control_functions:type_name -> simsdkrpc.ControlFunctionType
+	6,  // 3: simsdkrpc.Manifest.component_types:type_name -> simsdkrpc.ComponentType
+	7,  // 4: simsdkrpc.Manifest.transport_types:type_name -> simsdkrpc.TransportType
+	8,  // 5: simsdkrpc.MessageType.fields:type_name -> simsdkrpc.FieldSpec
+	8,  // 6: simsdkrpc.ControlFunctionType.fields:type_name -> simsdkrpc.FieldSpec
 	0,  // 7: simsdkrpc.FieldSpec.type:type_name -> simsdkrpc.FieldType
 	0,  // 8: simsdkrpc.FieldSpec.subtype:type_name -> simsdkrpc.FieldType
-	9,  // 9: simsdkrpc.FieldSpec.object_fields:type_name -> simsdkrpc.FieldSpec
-	2,  // 10: simsdkrpc.PluginService.GetManifest:input_type -> simsdkrpc.ManifestRequest
-	3,  // 11: simsdkrpc.PluginService.GetManifest:output_type -> simsdkrpc.ManifestResponse
+	8,  // 9: simsdkrpc.FieldSpec.object_fields:type_name -> simsdkrpc.FieldSpec
+	1,  // 10: simsdkrpc.PluginService.GetManifest:input_type -> simsdkrpc.ManifestRequest
+	2,  // 11: simsdkrpc.PluginService.GetManifest:output_type -> simsdkrpc.ManifestResponse
 	11, // [11:12] is the sub-list for method output_type
 	10, // [10:11] is the sub-list for method input_type
 	10, // [10:10] is the sub-list for extension type_name
@@ -782,7 +744,7 @@ func file_plugin_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_plugin_proto_rawDesc), len(file_plugin_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   9,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
