@@ -26,7 +26,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PluginServiceClient interface {
-	GetManifest(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Manifest, error)
+	GetManifest(ctx context.Context, in *ManifestRequest, opts ...grpc.CallOption) (*ManifestResponse, error)
 }
 
 type pluginServiceClient struct {
@@ -37,9 +37,9 @@ func NewPluginServiceClient(cc grpc.ClientConnInterface) PluginServiceClient {
 	return &pluginServiceClient{cc}
 }
 
-func (c *pluginServiceClient) GetManifest(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Manifest, error) {
+func (c *pluginServiceClient) GetManifest(ctx context.Context, in *ManifestRequest, opts ...grpc.CallOption) (*ManifestResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Manifest)
+	out := new(ManifestResponse)
 	err := c.cc.Invoke(ctx, PluginService_GetManifest_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -51,7 +51,7 @@ func (c *pluginServiceClient) GetManifest(ctx context.Context, in *Empty, opts .
 // All implementations must embed UnimplementedPluginServiceServer
 // for forward compatibility.
 type PluginServiceServer interface {
-	GetManifest(context.Context, *Empty) (*Manifest, error)
+	GetManifest(context.Context, *ManifestRequest) (*ManifestResponse, error)
 	mustEmbedUnimplementedPluginServiceServer()
 }
 
@@ -62,7 +62,7 @@ type PluginServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedPluginServiceServer struct{}
 
-func (UnimplementedPluginServiceServer) GetManifest(context.Context, *Empty) (*Manifest, error) {
+func (UnimplementedPluginServiceServer) GetManifest(context.Context, *ManifestRequest) (*ManifestResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetManifest not implemented")
 }
 func (UnimplementedPluginServiceServer) mustEmbedUnimplementedPluginServiceServer() {}
@@ -87,7 +87,7 @@ func RegisterPluginServiceServer(s grpc.ServiceRegistrar, srv PluginServiceServe
 }
 
 func _PluginService_GetManifest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Empty)
+	in := new(ManifestRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -99,7 +99,7 @@ func _PluginService_GetManifest_Handler(srv interface{}, ctx context.Context, de
 		FullMethod: PluginService_GetManifest_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PluginServiceServer).GetManifest(ctx, req.(*Empty))
+		return srv.(PluginServiceServer).GetManifest(ctx, req.(*ManifestRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

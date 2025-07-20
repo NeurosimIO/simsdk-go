@@ -32,3 +32,12 @@ Each plugin is compiled as an isolated Go binary and communicates with the simul
 ```bash
 go get github.com/neurosimio/simsdk@latest
 ```
+
+Build using
+```bash
+ protoc \
+  -I=proto \
+  --go_out=rpc/simsdkrpc --go_opt=paths=source_relative \
+  --go-grpc_out=rpc/simsdkrpc --go-grpc_opt=paths=source_relative \
+  proto/plugin.proto
+ ``` 

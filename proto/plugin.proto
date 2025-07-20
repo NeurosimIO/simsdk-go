@@ -5,10 +5,16 @@ package simsdkrpc;
 option go_package = "github.com/neurosimio/simsdk/rpc/simsdkrpc;simsdkrpc";
 
 service PluginService {
-  rpc GetManifest (Empty) returns (Manifest);
+  rpc GetManifest (ManifestRequest) returns (ManifestResponse);
 }
 
 message Empty {}
+
+message ManifestRequest {}
+
+message ManifestResponse {
+  Manifest manifest = 1;
+}
 
 message Manifest {
   string name = 1;
