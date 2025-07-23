@@ -27,3 +27,22 @@ func RegisterManifest(m Manifest) {
 func GetAllRegisteredManifests() []Manifest {
 	return registeredManifests
 }
+
+type SimMessage struct {
+	MessageType string
+	MessageID   string
+	ComponentID string
+	Payload     []byte
+	Metadata    map[string]string
+}
+type PluginWithHandlers interface {
+	Plugin
+	CreateComponentInstance(req CreateComponentRequest) error
+	DestroyComponentInstance(componentID string) error
+	HandleMessage(msg SimMessage) ([]SimMessage, error)
+}
+type CreateComponentRequest struct {
+	ComponentType string            // The declared ComponentType.ID from the manifest
+	ComponentID   string            // Unique instance ID (e.g., "locomotive-001")
+	Parameters    map[string]string // Optional plugin-specific initialization parameters
+}

@@ -4,8 +4,14 @@ package simsdkrpc;
 
 option go_package = "github.com/neurosimio/simsdk/rpc/simsdkrpc;simsdkrpc";
 
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
 service PluginService {
-  rpc GetManifest (ManifestRequest) returns (ManifestResponse);
+  rpc GetManifest(ManifestRequest) returns (ManifestResponse);
+  rpc CreateComponentInstance(CreateComponentRequest) returns (CreateComponentResponse);
+  rpc DestroyComponentInstance(google.protobuf.StringValue) returns (google.protobuf.Empty);
+  rpc HandleMessage(SimMessage) returns (MessageResponse);
 }
  
 message ManifestRequest {}
@@ -42,6 +48,7 @@ message ComponentType {
   string display_name = 2;
   bool internal = 3;
   string description = 4;
+   bool supports_multiple_instances = 5;
 }
 
 message TransportType {
@@ -73,4 +80,24 @@ enum FieldType {
   TIMESTAMP = 7;
   REPEATED = 8;
   OBJECT = 9;
+}
+
+message CreateComponentRequest {
+  string component_type = 1;
+  string component_id = 2;
+  map<string, string> parameters = 3;
+}
+
+message CreateComponentResponse {}
+
+message SimMessage {
+  string message_type = 1;
+  string message_id = 2;
+  string component_id = 3;
+  bytes payload = 4;
+  map<string, string> metadata = 5;
+}
+
+message MessageResponse {
+  repeated SimMessage outbound_messages = 1;
 }

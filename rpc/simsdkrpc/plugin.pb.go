@@ -9,6 +9,8 @@ package simsdkrpc
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -392,13 +394,14 @@ func (x *ControlFunctionType) GetFields() []*FieldSpec {
 }
 
 type ComponentType struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	DisplayName   string                 `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
-	Internal      bool                   `protobuf:"varint,3,opt,name=internal,proto3" json:"internal,omitempty"`
-	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state                     protoimpl.MessageState `protogen:"open.v1"`
+	Id                        string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	DisplayName               string                 `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	Internal                  bool                   `protobuf:"varint,3,opt,name=internal,proto3" json:"internal,omitempty"`
+	Description               string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	SupportsMultipleInstances bool                   `protobuf:"varint,5,opt,name=supports_multiple_instances,json=supportsMultipleInstances,proto3" json:"supports_multiple_instances,omitempty"`
+	unknownFields             protoimpl.UnknownFields
+	sizeCache                 protoimpl.SizeCache
 }
 
 func (x *ComponentType) Reset() {
@@ -457,6 +460,13 @@ func (x *ComponentType) GetDescription() string {
 		return x.Description
 	}
 	return ""
+}
+
+func (x *ComponentType) GetSupportsMultipleInstances() bool {
+	if x != nil {
+		return x.SupportsMultipleInstances
+	}
+	return false
 }
 
 type TransportType struct {
@@ -627,11 +637,227 @@ func (x *FieldSpec) GetObjectFields() []*FieldSpec {
 	return nil
 }
 
+type CreateComponentRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ComponentType string                 `protobuf:"bytes,1,opt,name=component_type,json=componentType,proto3" json:"component_type,omitempty"`
+	ComponentId   string                 `protobuf:"bytes,2,opt,name=component_id,json=componentId,proto3" json:"component_id,omitempty"`
+	Parameters    map[string]string      `protobuf:"bytes,3,rep,name=parameters,proto3" json:"parameters,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateComponentRequest) Reset() {
+	*x = CreateComponentRequest{}
+	mi := &file_plugin_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateComponentRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateComponentRequest) ProtoMessage() {}
+
+func (x *CreateComponentRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateComponentRequest.ProtoReflect.Descriptor instead.
+func (*CreateComponentRequest) Descriptor() ([]byte, []int) {
+	return file_plugin_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *CreateComponentRequest) GetComponentType() string {
+	if x != nil {
+		return x.ComponentType
+	}
+	return ""
+}
+
+func (x *CreateComponentRequest) GetComponentId() string {
+	if x != nil {
+		return x.ComponentId
+	}
+	return ""
+}
+
+func (x *CreateComponentRequest) GetParameters() map[string]string {
+	if x != nil {
+		return x.Parameters
+	}
+	return nil
+}
+
+type CreateComponentResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateComponentResponse) Reset() {
+	*x = CreateComponentResponse{}
+	mi := &file_plugin_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateComponentResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateComponentResponse) ProtoMessage() {}
+
+func (x *CreateComponentResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateComponentResponse.ProtoReflect.Descriptor instead.
+func (*CreateComponentResponse) Descriptor() ([]byte, []int) {
+	return file_plugin_proto_rawDescGZIP(), []int{9}
+}
+
+type SimMessage struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	MessageType   string                 `protobuf:"bytes,1,opt,name=message_type,json=messageType,proto3" json:"message_type,omitempty"`
+	MessageId     string                 `protobuf:"bytes,2,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
+	ComponentId   string                 `protobuf:"bytes,3,opt,name=component_id,json=componentId,proto3" json:"component_id,omitempty"`
+	Payload       []byte                 `protobuf:"bytes,4,opt,name=payload,proto3" json:"payload,omitempty"`
+	Metadata      map[string]string      `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SimMessage) Reset() {
+	*x = SimMessage{}
+	mi := &file_plugin_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SimMessage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SimMessage) ProtoMessage() {}
+
+func (x *SimMessage) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SimMessage.ProtoReflect.Descriptor instead.
+func (*SimMessage) Descriptor() ([]byte, []int) {
+	return file_plugin_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *SimMessage) GetMessageType() string {
+	if x != nil {
+		return x.MessageType
+	}
+	return ""
+}
+
+func (x *SimMessage) GetMessageId() string {
+	if x != nil {
+		return x.MessageId
+	}
+	return ""
+}
+
+func (x *SimMessage) GetComponentId() string {
+	if x != nil {
+		return x.ComponentId
+	}
+	return ""
+}
+
+func (x *SimMessage) GetPayload() []byte {
+	if x != nil {
+		return x.Payload
+	}
+	return nil
+}
+
+func (x *SimMessage) GetMetadata() map[string]string {
+	if x != nil {
+		return x.Metadata
+	}
+	return nil
+}
+
+type MessageResponse struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	OutboundMessages []*SimMessage          `protobuf:"bytes,1,rep,name=outbound_messages,json=outboundMessages,proto3" json:"outbound_messages,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *MessageResponse) Reset() {
+	*x = MessageResponse{}
+	mi := &file_plugin_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MessageResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MessageResponse) ProtoMessage() {}
+
+func (x *MessageResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MessageResponse.ProtoReflect.Descriptor instead.
+func (*MessageResponse) Descriptor() ([]byte, []int) {
+	return file_plugin_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *MessageResponse) GetOutboundMessages() []*SimMessage {
+	if x != nil {
+		return x.OutboundMessages
+	}
+	return nil
+}
+
 var File_plugin_proto protoreflect.FileDescriptor
 
 const file_plugin_proto_rawDesc = "" +
 	"\n" +
-	"\fplugin.proto\x12\tsimsdkrpc\"\x11\n" +
+	"\fplugin.proto\x12\tsimsdkrpc\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\x11\n" +
 	"\x0fManifestRequest\"C\n" +
 	"\x10ManifestResponse\x12/\n" +
 	"\bmanifest\x18\x01 \x01(\v2\x13.simsdkrpc.ManifestR\bmanifest\"\xc8\x02\n" +
@@ -651,12 +877,13 @@ const file_plugin_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
 	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12,\n" +
-	"\x06fields\x18\x04 \x03(\v2\x14.simsdkrpc.FieldSpecR\x06fields\"\x80\x01\n" +
+	"\x06fields\x18\x04 \x03(\v2\x14.simsdkrpc.FieldSpecR\x06fields\"\xc0\x01\n" +
 	"\rComponentType\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
 	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x12\x1a\n" +
 	"\binternal\x18\x03 \x01(\bR\binternal\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\"\x80\x01\n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\x12>\n" +
+	"\x1bsupports_multiple_instances\x18\x05 \x01(\bR\x19supportsMultipleInstances\"\x80\x01\n" +
 	"\rTransportType\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
 	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x12 \n" +
@@ -671,7 +898,30 @@ const file_plugin_proto_rawDesc = "" +
 	"\brepeated\x18\x05 \x01(\bR\brepeated\x12 \n" +
 	"\vdescription\x18\x06 \x01(\tR\vdescription\x12.\n" +
 	"\asubtype\x18\a \x01(\x0e2\x14.simsdkrpc.FieldTypeR\asubtype\x129\n" +
-	"\robject_fields\x18\b \x03(\v2\x14.simsdkrpc.FieldSpecR\fobjectFields*\x8e\x01\n" +
+	"\robject_fields\x18\b \x03(\v2\x14.simsdkrpc.FieldSpecR\fobjectFields\"\xf4\x01\n" +
+	"\x16CreateComponentRequest\x12%\n" +
+	"\x0ecomponent_type\x18\x01 \x01(\tR\rcomponentType\x12!\n" +
+	"\fcomponent_id\x18\x02 \x01(\tR\vcomponentId\x12Q\n" +
+	"\n" +
+	"parameters\x18\x03 \x03(\v21.simsdkrpc.CreateComponentRequest.ParametersEntryR\n" +
+	"parameters\x1a=\n" +
+	"\x0fParametersEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x19\n" +
+	"\x17CreateComponentResponse\"\x89\x02\n" +
+	"\n" +
+	"SimMessage\x12!\n" +
+	"\fmessage_type\x18\x01 \x01(\tR\vmessageType\x12\x1d\n" +
+	"\n" +
+	"message_id\x18\x02 \x01(\tR\tmessageId\x12!\n" +
+	"\fcomponent_id\x18\x03 \x01(\tR\vcomponentId\x12\x18\n" +
+	"\apayload\x18\x04 \x01(\fR\apayload\x12?\n" +
+	"\bmetadata\x18\x05 \x03(\v2#.simsdkrpc.SimMessage.MetadataEntryR\bmetadata\x1a;\n" +
+	"\rMetadataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"U\n" +
+	"\x0fMessageResponse\x12B\n" +
+	"\x11outbound_messages\x18\x01 \x03(\v2\x15.simsdkrpc.SimMessageR\x10outboundMessages*\x8e\x01\n" +
 	"\tFieldType\x12\x1a\n" +
 	"\x16FIELD_TYPE_UNSPECIFIED\x10\x00\x12\n" +
 	"\n" +
@@ -684,9 +934,12 @@ const file_plugin_proto_rawDesc = "" +
 	"\tTIMESTAMP\x10\a\x12\f\n" +
 	"\bREPEATED\x10\b\x12\n" +
 	"\n" +
-	"\x06OBJECT\x10\t2W\n" +
+	"\x06OBJECT\x10\t2\xcf\x02\n" +
 	"\rPluginService\x12F\n" +
-	"\vGetManifest\x12\x1a.simsdkrpc.ManifestRequest\x1a\x1b.simsdkrpc.ManifestResponseB6Z4github.com/neurosimio/simsdk/rpc/simsdkrpc;simsdkrpcb\x06proto3"
+	"\vGetManifest\x12\x1a.simsdkrpc.ManifestRequest\x1a\x1b.simsdkrpc.ManifestResponse\x12`\n" +
+	"\x17CreateComponentInstance\x12!.simsdkrpc.CreateComponentRequest\x1a\".simsdkrpc.CreateComponentResponse\x12P\n" +
+	"\x18DestroyComponentInstance\x12\x1c.google.protobuf.StringValue\x1a\x16.google.protobuf.Empty\x12B\n" +
+	"\rHandleMessage\x12\x15.simsdkrpc.SimMessage\x1a\x1a.simsdkrpc.MessageResponseB6Z4github.com/neurosimio/simsdk/rpc/simsdkrpc;simsdkrpcb\x06proto3"
 
 var (
 	file_plugin_proto_rawDescOnce sync.Once
@@ -701,17 +954,25 @@ func file_plugin_proto_rawDescGZIP() []byte {
 }
 
 var file_plugin_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_plugin_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_plugin_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_plugin_proto_goTypes = []any{
-	(FieldType)(0),              // 0: simsdkrpc.FieldType
-	(*ManifestRequest)(nil),     // 1: simsdkrpc.ManifestRequest
-	(*ManifestResponse)(nil),    // 2: simsdkrpc.ManifestResponse
-	(*Manifest)(nil),            // 3: simsdkrpc.Manifest
-	(*MessageType)(nil),         // 4: simsdkrpc.MessageType
-	(*ControlFunctionType)(nil), // 5: simsdkrpc.ControlFunctionType
-	(*ComponentType)(nil),       // 6: simsdkrpc.ComponentType
-	(*TransportType)(nil),       // 7: simsdkrpc.TransportType
-	(*FieldSpec)(nil),           // 8: simsdkrpc.FieldSpec
+	(FieldType)(0),                  // 0: simsdkrpc.FieldType
+	(*ManifestRequest)(nil),         // 1: simsdkrpc.ManifestRequest
+	(*ManifestResponse)(nil),        // 2: simsdkrpc.ManifestResponse
+	(*Manifest)(nil),                // 3: simsdkrpc.Manifest
+	(*MessageType)(nil),             // 4: simsdkrpc.MessageType
+	(*ControlFunctionType)(nil),     // 5: simsdkrpc.ControlFunctionType
+	(*ComponentType)(nil),           // 6: simsdkrpc.ComponentType
+	(*TransportType)(nil),           // 7: simsdkrpc.TransportType
+	(*FieldSpec)(nil),               // 8: simsdkrpc.FieldSpec
+	(*CreateComponentRequest)(nil),  // 9: simsdkrpc.CreateComponentRequest
+	(*CreateComponentResponse)(nil), // 10: simsdkrpc.CreateComponentResponse
+	(*SimMessage)(nil),              // 11: simsdkrpc.SimMessage
+	(*MessageResponse)(nil),         // 12: simsdkrpc.MessageResponse
+	nil,                             // 13: simsdkrpc.CreateComponentRequest.ParametersEntry
+	nil,                             // 14: simsdkrpc.SimMessage.MetadataEntry
+	(*wrapperspb.StringValue)(nil),  // 15: google.protobuf.StringValue
+	(*emptypb.Empty)(nil),           // 16: google.protobuf.Empty
 }
 var file_plugin_proto_depIdxs = []int32{
 	3,  // 0: simsdkrpc.ManifestResponse.manifest:type_name -> simsdkrpc.Manifest
@@ -724,13 +985,22 @@ var file_plugin_proto_depIdxs = []int32{
 	0,  // 7: simsdkrpc.FieldSpec.type:type_name -> simsdkrpc.FieldType
 	0,  // 8: simsdkrpc.FieldSpec.subtype:type_name -> simsdkrpc.FieldType
 	8,  // 9: simsdkrpc.FieldSpec.object_fields:type_name -> simsdkrpc.FieldSpec
-	1,  // 10: simsdkrpc.PluginService.GetManifest:input_type -> simsdkrpc.ManifestRequest
-	2,  // 11: simsdkrpc.PluginService.GetManifest:output_type -> simsdkrpc.ManifestResponse
-	11, // [11:12] is the sub-list for method output_type
-	10, // [10:11] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	13, // 10: simsdkrpc.CreateComponentRequest.parameters:type_name -> simsdkrpc.CreateComponentRequest.ParametersEntry
+	14, // 11: simsdkrpc.SimMessage.metadata:type_name -> simsdkrpc.SimMessage.MetadataEntry
+	11, // 12: simsdkrpc.MessageResponse.outbound_messages:type_name -> simsdkrpc.SimMessage
+	1,  // 13: simsdkrpc.PluginService.GetManifest:input_type -> simsdkrpc.ManifestRequest
+	9,  // 14: simsdkrpc.PluginService.CreateComponentInstance:input_type -> simsdkrpc.CreateComponentRequest
+	15, // 15: simsdkrpc.PluginService.DestroyComponentInstance:input_type -> google.protobuf.StringValue
+	11, // 16: simsdkrpc.PluginService.HandleMessage:input_type -> simsdkrpc.SimMessage
+	2,  // 17: simsdkrpc.PluginService.GetManifest:output_type -> simsdkrpc.ManifestResponse
+	10, // 18: simsdkrpc.PluginService.CreateComponentInstance:output_type -> simsdkrpc.CreateComponentResponse
+	16, // 19: simsdkrpc.PluginService.DestroyComponentInstance:output_type -> google.protobuf.Empty
+	12, // 20: simsdkrpc.PluginService.HandleMessage:output_type -> simsdkrpc.MessageResponse
+	17, // [17:21] is the sub-list for method output_type
+	13, // [13:17] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_plugin_proto_init() }
@@ -744,7 +1014,7 @@ func file_plugin_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_plugin_proto_rawDesc), len(file_plugin_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   8,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

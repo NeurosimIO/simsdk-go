@@ -33,10 +33,11 @@ type ControlFunctionType struct {
 
 // ComponentType describes something that sends or receives messages
 type ComponentType struct {
-	ID          string
-	DisplayName string
-	Internal    bool // true if this is simulated internally
-	Description string
+	ID                        string
+	DisplayName               string
+	Internal                  bool // true if this is simulated internally
+	Description               string
+	SupportsMultipleInstances bool // true if multiple instances can exist
 }
 
 type TransportType struct {

@@ -11,6 +11,8 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -19,7 +21,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	PluginService_GetManifest_FullMethodName = "/simsdkrpc.PluginService/GetManifest"
+	PluginService_GetManifest_FullMethodName              = "/simsdkrpc.PluginService/GetManifest"
+	PluginService_CreateComponentInstance_FullMethodName  = "/simsdkrpc.PluginService/CreateComponentInstance"
+	PluginService_DestroyComponentInstance_FullMethodName = "/simsdkrpc.PluginService/DestroyComponentInstance"
+	PluginService_HandleMessage_FullMethodName            = "/simsdkrpc.PluginService/HandleMessage"
 )
 
 // PluginServiceClient is the client API for PluginService service.
@@ -27,6 +32,9 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PluginServiceClient interface {
 	GetManifest(ctx context.Context, in *ManifestRequest, opts ...grpc.CallOption) (*ManifestResponse, error)
+	CreateComponentInstance(ctx context.Context, in *CreateComponentRequest, opts ...grpc.CallOption) (*CreateComponentResponse, error)
+	DestroyComponentInstance(ctx context.Context, in *wrapperspb.StringValue, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	HandleMessage(ctx context.Context, in *SimMessage, opts ...grpc.CallOption) (*MessageResponse, error)
 }
 
 type pluginServiceClient struct {
@@ -47,11 +55,44 @@ func (c *pluginServiceClient) GetManifest(ctx context.Context, in *ManifestReque
 	return out, nil
 }
 
+func (c *pluginServiceClient) CreateComponentInstance(ctx context.Context, in *CreateComponentRequest, opts ...grpc.CallOption) (*CreateComponentResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateComponentResponse)
+	err := c.cc.Invoke(ctx, PluginService_CreateComponentInstance_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *pluginServiceClient) DestroyComponentInstance(ctx context.Context, in *wrapperspb.StringValue, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, PluginService_DestroyComponentInstance_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *pluginServiceClient) HandleMessage(ctx context.Context, in *SimMessage, opts ...grpc.CallOption) (*MessageResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MessageResponse)
+	err := c.cc.Invoke(ctx, PluginService_HandleMessage_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PluginServiceServer is the server API for PluginService service.
 // All implementations must embed UnimplementedPluginServiceServer
 // for forward compatibility.
 type PluginServiceServer interface {
 	GetManifest(context.Context, *ManifestRequest) (*ManifestResponse, error)
+	CreateComponentInstance(context.Context, *CreateComponentRequest) (*CreateComponentResponse, error)
+	DestroyComponentInstance(context.Context, *wrapperspb.StringValue) (*emptypb.Empty, error)
+	HandleMessage(context.Context, *SimMessage) (*MessageResponse, error)
 	mustEmbedUnimplementedPluginServiceServer()
 }
 
@@ -64,6 +105,15 @@ type UnimplementedPluginServiceServer struct{}
 
 func (UnimplementedPluginServiceServer) GetManifest(context.Context, *ManifestRequest) (*ManifestResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetManifest not implemented")
+}
+func (UnimplementedPluginServiceServer) CreateComponentInstance(context.Context, *CreateComponentRequest) (*CreateComponentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateComponentInstance not implemented")
+}
+func (UnimplementedPluginServiceServer) DestroyComponentInstance(context.Context, *wrapperspb.StringValue) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DestroyComponentInstance not implemented")
+}
+func (UnimplementedPluginServiceServer) HandleMessage(context.Context, *SimMessage) (*MessageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method HandleMessage not implemented")
 }
 func (UnimplementedPluginServiceServer) mustEmbedUnimplementedPluginServiceServer() {}
 func (UnimplementedPluginServiceServer) testEmbeddedByValue()                       {}
@@ -104,6 +154,60 @@ func _PluginService_GetManifest_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PluginService_CreateComponentInstance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateComponentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PluginServiceServer).CreateComponentInstance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PluginService_CreateComponentInstance_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PluginServiceServer).CreateComponentInstance(ctx, req.(*CreateComponentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PluginService_DestroyComponentInstance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(wrapperspb.StringValue)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PluginServiceServer).DestroyComponentInstance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PluginService_DestroyComponentInstance_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PluginServiceServer).DestroyComponentInstance(ctx, req.(*wrapperspb.StringValue))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PluginService_HandleMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SimMessage)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PluginServiceServer).HandleMessage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PluginService_HandleMessage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PluginServiceServer).HandleMessage(ctx, req.(*SimMessage))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PluginService_ServiceDesc is the grpc.ServiceDesc for PluginService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -114,6 +218,18 @@ var PluginService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetManifest",
 			Handler:    _PluginService_GetManifest_Handler,
+		},
+		{
+			MethodName: "CreateComponentInstance",
+			Handler:    _PluginService_CreateComponentInstance_Handler,
+		},
+		{
+			MethodName: "DestroyComponentInstance",
+			Handler:    _PluginService_DestroyComponentInstance_Handler,
+		},
+		{
+			MethodName: "HandleMessage",
+			Handler:    _PluginService_HandleMessage_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
