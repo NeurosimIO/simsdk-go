@@ -1,3 +1,6 @@
+![CI](https://github.com/neurosimio/simsdk/actions/workflows/ci.yml/badge.svg)
+[![Go Report Card](https://goreportcard.com/badge/github.com/neurosimio/simsdk)](https://goreportcard.com/report/github.com/neurosimio/simsdk)
+[![Go Reference](https://pkg.go.dev/badge/github.com/neurosimio/simsdk.svg)](https://pkg.go.dev/github.com/neurosimio/simsdk)
 # simsdk
 
 The `simsdk` provides the interfaces, types, and registration utilities required to build plugins for the NeuroSim Simulation Engine.
