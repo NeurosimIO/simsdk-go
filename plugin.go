@@ -3,7 +3,7 @@ package simsdk
 
 // Plugin is the main interface all simulation plugins must implement
 type Plugin interface {
-	Manifest() Manifest
+	GetManifest() Manifest
 }
 
 // Manifest describes what this plugin provides

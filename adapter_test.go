@@ -18,7 +18,7 @@ type mockPlugin struct {
 	lastCreateID string
 }
 
-func (m *mockPlugin) Manifest() Manifest {
+func (m *mockPlugin) GetManifest() Manifest {
 	return m.manifest
 }
 
