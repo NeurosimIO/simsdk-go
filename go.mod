@@ -1,4 +1,4 @@
-module github.com/neurosimio/simsdk_go
+module github.com/neurosimio/simsdk-go
 
 go 1.24.5
 
