@@ -1,4 +1,4 @@
-package simsdk_go
+package simsdk
 
 import (
 	"github.com/neurosimio/simsdk-go/rpc/simsdkrpc"

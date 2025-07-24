@@ -1,5 +1,5 @@
 // Package simsdk provides core interfaces and types for building simulation plugins
-package simsdk_go
+package simsdk
 
 // Plugin is the main interface all simulation plugins must implement
 type Plugin interface {

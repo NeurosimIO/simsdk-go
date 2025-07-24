@@ -1,4 +1,4 @@
-package simsdk_go
+package simsdk
 
 import (
 	"context"

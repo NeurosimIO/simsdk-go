@@ -1,4 +1,4 @@
-package simsdk_go
+package simsdk
 
 type FieldType string
 

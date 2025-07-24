@@ -1,4 +1,4 @@
-package simsdk_go
+package simsdk
 
 // MessageType describes a message that can be used in simulation
 // It does not carry the actual payload, just metadata for configuration

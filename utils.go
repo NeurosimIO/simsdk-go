@@ -1,4 +1,4 @@
-package simsdk_go
+package simsdk
 
 func PtrFieldType(t FieldType) *FieldType {
 	return &t
