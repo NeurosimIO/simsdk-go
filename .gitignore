@@ -1,2 +1,5 @@
 # Specify filepatterns you want git to ignore.
 .vscode/**
+vendor/**
+
+.DS_Store
