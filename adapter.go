@@ -1,9 +1,9 @@
-package simsdk
+package simsdk_go
 
 import (
 	"context"
 
-	"github.com/neurosimio/simsdk/rpc/simsdkrpc"
+	"github.com/neurosimio/simsdk-go/rpc/simsdkrpc"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/wrapperspb"
 )

@@ -1,7 +1,7 @@
-package simsdk
+package simsdk_go
 
 import (
-	"github.com/neurosimio/simsdk/rpc/simsdkrpc"
+	"github.com/neurosimio/simsdk-go/rpc/simsdkrpc"
 )
 
 func toProtoManifest(m Manifest) *simsdkrpc.Manifest {
