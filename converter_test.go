@@ -1,9 +1,9 @@
-package simsdk
+package simsdk_go
 
 import (
 	"testing"
 
-	"github.com/neurosimio/simsdk/rpc/simsdkrpc"
+	"github.com/neurosimio/simsdk-go/rpc/simsdkrpc"
 )
 
 func TestToProtoFieldType(t *testing.T) {

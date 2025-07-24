@@ -2,7 +2,7 @@
 
 # Default Go parameters
 GO ?= go
-PKG := github.com/neurosimio/simsdk
+PKG := github.com/neurosimio/simsdk-go
 VERSION ?= $(shell git describe --tags --always --dirty)
 
 .PHONY: all build test lint fmt tidy tag clean
