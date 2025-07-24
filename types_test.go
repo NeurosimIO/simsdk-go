@@ -1,1 +1,1 @@
-package simsdk_go
+package simsdk
