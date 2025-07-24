@@ -229,6 +229,22 @@ func TestFromProtoComponentTypes(t *testing.T) {
 	}
 }
 
+func TestToProtoTransportTypes(t *testing.T) {
+	input := []TransportType{{
+		ID:          "amqp",
+		DisplayName: "AMQP 1.0",
+		Description: "AMQP transport",
+		Internal:    false,
+	}}
+	got := toProtoTransportTypes(input)
+	if len(got) != 1 {
+		t.Fatalf("Expected 1 result, got %d", len(got))
+	}
+	if got[0].Id != "amqp" || got[0].DisplayName != "AMQP 1.0" {
+		t.Errorf("TransportType fields not correctly converted to proto")
+	}
+}
+
 func TestFromProtoTransportTypes(t *testing.T) {
 	input := []*simsdkrpc.TransportType{{
 		Id:          "tcp",
@@ -242,6 +258,20 @@ func TestFromProtoTransportTypes(t *testing.T) {
 	}
 	if got[0].ID != "tcp" || got[0].DisplayName != "TCP" {
 		t.Errorf("TransportType fields not correctly converted")
+	}
+}
+
+func TestFromProtoTransportTypes_Multiple(t *testing.T) {
+	input := []*simsdkrpc.TransportType{
+		{Id: "amqp", DisplayName: "AMQP", Description: "AMQP Desc", Internal: false},
+		{Id: "kafka", DisplayName: "Kafka", Description: "Kafka Desc", Internal: true},
+	}
+	got := fromProtoTransportTypes(input)
+	if len(got) != 2 {
+		t.Fatalf("Expected 2 results, got %d", len(got))
+	}
+	if got[1].ID != "kafka" || !got[1].Internal {
+		t.Errorf("Second transport not correctly converted")
 	}
 }
 

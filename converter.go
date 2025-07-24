@@ -25,14 +25,7 @@ func toProtoManifest(m Manifest) *simsdkrpc.Manifest {
 			SupportsMultipleInstances: cmp.SupportsMultipleInstances, // default to true; adjust as needed
 		})
 	}
-	for _, t := range m.TransportTypes {
-		proto.TransportTypes = append(proto.TransportTypes, &simsdkrpc.TransportType{
-			Id:          t.ID,
-			DisplayName: t.DisplayName,
-			Description: t.Description,
-			Internal:    t.Internal,
-		})
-	}
+	proto.TransportTypes = toProtoTransportTypes(m.TransportTypes)
 
 	return proto
 }
@@ -53,6 +46,19 @@ func toProtoControlFunction(cf ControlFunctionType) *simsdkrpc.ControlFunctionTy
 		Description: cf.Description,
 		Fields:      toProtoFieldSpecs(cf.Fields),
 	}
+}
+
+func toProtoTransportTypes(tt []TransportType) []*simsdkrpc.TransportType {
+	var result []*simsdkrpc.TransportType
+	for _, t := range tt {
+		result = append(result, &simsdkrpc.TransportType{
+			Id:          t.ID,
+			DisplayName: t.DisplayName,
+			Description: t.Description,
+			Internal:    t.Internal,
+		})
+	}
+	return result
 }
 
 func toProtoFieldSpecs(fields []FieldSpec) []*simsdkrpc.FieldSpec {
