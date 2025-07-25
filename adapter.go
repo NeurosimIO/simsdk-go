@@ -19,7 +19,7 @@ func NewGRPCAdapter(p PluginWithHandlers) simsdkrpc.PluginServiceServer {
 
 func (g *grpcAdapter) GetManifest(ctx context.Context, _ *simsdkrpc.ManifestRequest) (*simsdkrpc.ManifestResponse, error) {
 	return &simsdkrpc.ManifestResponse{
-		Manifest: toProtoManifest(g.plugin.GetManifest()),
+		Manifest: ToProtoManifest(g.plugin.GetManifest()),
 	}, nil
 }
 

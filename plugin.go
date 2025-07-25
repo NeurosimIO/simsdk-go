@@ -50,5 +50,5 @@ type CreateComponentRequest struct {
 }
 
 func (m Manifest) ToProto() *simsdkrpc.Manifest {
-	return toProtoManifest(m)
+	return ToProtoManifest(m)
 }

@@ -4,7 +4,7 @@ import (
 	"github.com/neurosimio/simsdk-go/rpc/simsdkrpc"
 )
 
-func toProtoManifest(m Manifest) *simsdkrpc.Manifest {
+func ToProtoManifest(m Manifest) *simsdkrpc.Manifest {
 	proto := &simsdkrpc.Manifest{
 		Name:    m.Name,
 		Version: m.Version,
@@ -110,7 +110,7 @@ func toProtoFieldType(ft FieldType) simsdkrpc.FieldType {
 	}
 }
 
-func fromProtoManifest(p *simsdkrpc.Manifest) Manifest {
+func FromProtoManifest(p *simsdkrpc.Manifest) Manifest {
 	return Manifest{
 		Name:             p.Name,
 		Version:          p.Version,

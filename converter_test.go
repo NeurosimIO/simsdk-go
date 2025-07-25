@@ -97,7 +97,7 @@ func TestToProtoManifest_RoundTrip(t *testing.T) {
 		}},
 	}
 
-	got := fromProtoManifest(toProtoManifest(original))
+	got := FromProtoManifest(ToProtoManifest(original))
 
 	if got.Name != original.Name || got.Version != original.Version {
 		t.Errorf("basic fields mismatch: got %+v, want %+v", got, original)
