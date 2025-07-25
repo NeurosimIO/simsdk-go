@@ -1,6 +1,8 @@
 // Package simsdk provides core interfaces and types for building simulation plugins
 package simsdk
 
+import "github.com/neurosimio/simsdk-go/rpc/simsdkrpc"
+
 // Plugin is the main interface all simulation plugins must implement
 type Plugin interface {
 	GetManifest() Manifest
@@ -45,4 +47,8 @@ type CreateComponentRequest struct {
 	ComponentType string            // The declared ComponentType.ID from the manifest
 	ComponentID   string            // Unique instance ID (e.g., "locomotive-001")
 	Parameters    map[string]string // Optional plugin-specific initialization parameters
+}
+
+func (m Manifest) ToProto() *simsdkrpc.Manifest {
+	return toProtoManifest(m)
 }
