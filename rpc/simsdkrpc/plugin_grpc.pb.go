@@ -25,6 +25,7 @@ const (
 	PluginService_CreateComponentInstance_FullMethodName  = "/simsdkrpc.PluginService/CreateComponentInstance"
 	PluginService_DestroyComponentInstance_FullMethodName = "/simsdkrpc.PluginService/DestroyComponentInstance"
 	PluginService_HandleMessage_FullMethodName            = "/simsdkrpc.PluginService/HandleMessage"
+	PluginService_MessageStream_FullMethodName            = "/simsdkrpc.PluginService/MessageStream"
 )
 
 // PluginServiceClient is the client API for PluginService service.
@@ -35,6 +36,7 @@ type PluginServiceClient interface {
 	CreateComponentInstance(ctx context.Context, in *CreateComponentRequest, opts ...grpc.CallOption) (*CreateComponentResponse, error)
 	DestroyComponentInstance(ctx context.Context, in *wrapperspb.StringValue, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	HandleMessage(ctx context.Context, in *SimMessage, opts ...grpc.CallOption) (*MessageResponse, error)
+	MessageStream(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[PluginMessageEnvelope, PluginMessageEnvelope], error)
 }
 
 type pluginServiceClient struct {
@@ -85,6 +87,19 @@ func (c *pluginServiceClient) HandleMessage(ctx context.Context, in *SimMessage,
 	return out, nil
 }
 
+func (c *pluginServiceClient) MessageStream(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[PluginMessageEnvelope, PluginMessageEnvelope], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &PluginService_ServiceDesc.Streams[0], PluginService_MessageStream_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[PluginMessageEnvelope, PluginMessageEnvelope]{ClientStream: stream}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type PluginService_MessageStreamClient = grpc.BidiStreamingClient[PluginMessageEnvelope, PluginMessageEnvelope]
+
 // PluginServiceServer is the server API for PluginService service.
 // All implementations must embed UnimplementedPluginServiceServer
 // for forward compatibility.
@@ -93,6 +108,7 @@ type PluginServiceServer interface {
 	CreateComponentInstance(context.Context, *CreateComponentRequest) (*CreateComponentResponse, error)
 	DestroyComponentInstance(context.Context, *wrapperspb.StringValue) (*emptypb.Empty, error)
 	HandleMessage(context.Context, *SimMessage) (*MessageResponse, error)
+	MessageStream(grpc.BidiStreamingServer[PluginMessageEnvelope, PluginMessageEnvelope]) error
 	mustEmbedUnimplementedPluginServiceServer()
 }
 
@@ -114,6 +130,9 @@ func (UnimplementedPluginServiceServer) DestroyComponentInstance(context.Context
 }
 func (UnimplementedPluginServiceServer) HandleMessage(context.Context, *SimMessage) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method HandleMessage not implemented")
+}
+func (UnimplementedPluginServiceServer) MessageStream(grpc.BidiStreamingServer[PluginMessageEnvelope, PluginMessageEnvelope]) error {
+	return status.Errorf(codes.Unimplemented, "method MessageStream not implemented")
 }
 func (UnimplementedPluginServiceServer) mustEmbedUnimplementedPluginServiceServer() {}
 func (UnimplementedPluginServiceServer) testEmbeddedByValue()                       {}
@@ -208,6 +227,13 @@ func _PluginService_HandleMessage_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PluginService_MessageStream_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(PluginServiceServer).MessageStream(&grpc.GenericServerStream[PluginMessageEnvelope, PluginMessageEnvelope]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type PluginService_MessageStreamServer = grpc.BidiStreamingServer[PluginMessageEnvelope, PluginMessageEnvelope]
+
 // PluginService_ServiceDesc is the grpc.ServiceDesc for PluginService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -232,6 +258,13 @@ var PluginService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _PluginService_HandleMessage_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "MessageStream",
+			Handler:       _PluginService_MessageStream_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+	},
 	Metadata: "plugin.proto",
 }

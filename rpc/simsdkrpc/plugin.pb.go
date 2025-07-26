@@ -853,6 +853,320 @@ func (x *MessageResponse) GetOutboundMessages() []*SimMessage {
 	return nil
 }
 
+type PluginMessageEnvelope struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Content:
+	//
+	//	*PluginMessageEnvelope_SimMessage
+	//	*PluginMessageEnvelope_Ack
+	//	*PluginMessageEnvelope_Nak
+	//	*PluginMessageEnvelope_Init
+	//	*PluginMessageEnvelope_Shutdown
+	Content       isPluginMessageEnvelope_Content `protobuf_oneof:"content"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PluginMessageEnvelope) Reset() {
+	*x = PluginMessageEnvelope{}
+	mi := &file_plugin_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PluginMessageEnvelope) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PluginMessageEnvelope) ProtoMessage() {}
+
+func (x *PluginMessageEnvelope) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PluginMessageEnvelope.ProtoReflect.Descriptor instead.
+func (*PluginMessageEnvelope) Descriptor() ([]byte, []int) {
+	return file_plugin_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *PluginMessageEnvelope) GetContent() isPluginMessageEnvelope_Content {
+	if x != nil {
+		return x.Content
+	}
+	return nil
+}
+
+func (x *PluginMessageEnvelope) GetSimMessage() *SimMessage {
+	if x != nil {
+		if x, ok := x.Content.(*PluginMessageEnvelope_SimMessage); ok {
+			return x.SimMessage
+		}
+	}
+	return nil
+}
+
+func (x *PluginMessageEnvelope) GetAck() *PluginAck {
+	if x != nil {
+		if x, ok := x.Content.(*PluginMessageEnvelope_Ack); ok {
+			return x.Ack
+		}
+	}
+	return nil
+}
+
+func (x *PluginMessageEnvelope) GetNak() *PluginNak {
+	if x != nil {
+		if x, ok := x.Content.(*PluginMessageEnvelope_Nak); ok {
+			return x.Nak
+		}
+	}
+	return nil
+}
+
+func (x *PluginMessageEnvelope) GetInit() *PluginInit {
+	if x != nil {
+		if x, ok := x.Content.(*PluginMessageEnvelope_Init); ok {
+			return x.Init
+		}
+	}
+	return nil
+}
+
+func (x *PluginMessageEnvelope) GetShutdown() *PluginShutdown {
+	if x != nil {
+		if x, ok := x.Content.(*PluginMessageEnvelope_Shutdown); ok {
+			return x.Shutdown
+		}
+	}
+	return nil
+}
+
+type isPluginMessageEnvelope_Content interface {
+	isPluginMessageEnvelope_Content()
+}
+
+type PluginMessageEnvelope_SimMessage struct {
+	SimMessage *SimMessage `protobuf:"bytes,1,opt,name=sim_message,json=simMessage,proto3,oneof"`
+}
+
+type PluginMessageEnvelope_Ack struct {
+	Ack *PluginAck `protobuf:"bytes,2,opt,name=ack,proto3,oneof"`
+}
+
+type PluginMessageEnvelope_Nak struct {
+	Nak *PluginNak `protobuf:"bytes,3,opt,name=nak,proto3,oneof"`
+}
+
+type PluginMessageEnvelope_Init struct {
+	Init *PluginInit `protobuf:"bytes,4,opt,name=init,proto3,oneof"`
+}
+
+type PluginMessageEnvelope_Shutdown struct {
+	Shutdown *PluginShutdown `protobuf:"bytes,5,opt,name=shutdown,proto3,oneof"`
+}
+
+func (*PluginMessageEnvelope_SimMessage) isPluginMessageEnvelope_Content() {}
+
+func (*PluginMessageEnvelope_Ack) isPluginMessageEnvelope_Content() {}
+
+func (*PluginMessageEnvelope_Nak) isPluginMessageEnvelope_Content() {}
+
+func (*PluginMessageEnvelope_Init) isPluginMessageEnvelope_Content() {}
+
+func (*PluginMessageEnvelope_Shutdown) isPluginMessageEnvelope_Content() {}
+
+type PluginInit struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ComponentId   string                 `protobuf:"bytes,1,opt,name=component_id,json=componentId,proto3" json:"component_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PluginInit) Reset() {
+	*x = PluginInit{}
+	mi := &file_plugin_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PluginInit) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PluginInit) ProtoMessage() {}
+
+func (x *PluginInit) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PluginInit.ProtoReflect.Descriptor instead.
+func (*PluginInit) Descriptor() ([]byte, []int) {
+	return file_plugin_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *PluginInit) GetComponentId() string {
+	if x != nil {
+		return x.ComponentId
+	}
+	return ""
+}
+
+type PluginShutdown struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Reason        string                 `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PluginShutdown) Reset() {
+	*x = PluginShutdown{}
+	mi := &file_plugin_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PluginShutdown) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PluginShutdown) ProtoMessage() {}
+
+func (x *PluginShutdown) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PluginShutdown.ProtoReflect.Descriptor instead.
+func (*PluginShutdown) Descriptor() ([]byte, []int) {
+	return file_plugin_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *PluginShutdown) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+type PluginAck struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	MessageId     string                 `protobuf:"bytes,1,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PluginAck) Reset() {
+	*x = PluginAck{}
+	mi := &file_plugin_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PluginAck) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PluginAck) ProtoMessage() {}
+
+func (x *PluginAck) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PluginAck.ProtoReflect.Descriptor instead.
+func (*PluginAck) Descriptor() ([]byte, []int) {
+	return file_plugin_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *PluginAck) GetMessageId() string {
+	if x != nil {
+		return x.MessageId
+	}
+	return ""
+}
+
+type PluginNak struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	MessageId     string                 `protobuf:"bytes,1,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
+	ErrorMessage  string                 `protobuf:"bytes,2,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PluginNak) Reset() {
+	*x = PluginNak{}
+	mi := &file_plugin_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PluginNak) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PluginNak) ProtoMessage() {}
+
+func (x *PluginNak) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PluginNak.ProtoReflect.Descriptor instead.
+func (*PluginNak) Descriptor() ([]byte, []int) {
+	return file_plugin_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *PluginNak) GetMessageId() string {
+	if x != nil {
+		return x.MessageId
+	}
+	return ""
+}
+
+func (x *PluginNak) GetErrorMessage() string {
+	if x != nil {
+		return x.ErrorMessage
+	}
+	return ""
+}
+
 var File_plugin_proto protoreflect.FileDescriptor
 
 const file_plugin_proto_rawDesc = "" +
@@ -921,7 +1235,27 @@ const file_plugin_proto_rawDesc = "" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"U\n" +
 	"\x0fMessageResponse\x12B\n" +
-	"\x11outbound_messages\x18\x01 \x03(\v2\x15.simsdkrpc.SimMessageR\x10outboundMessages*\x8e\x01\n" +
+	"\x11outbound_messages\x18\x01 \x03(\v2\x15.simsdkrpc.SimMessageR\x10outboundMessages\"\x96\x02\n" +
+	"\x15PluginMessageEnvelope\x128\n" +
+	"\vsim_message\x18\x01 \x01(\v2\x15.simsdkrpc.SimMessageH\x00R\n" +
+	"simMessage\x12(\n" +
+	"\x03ack\x18\x02 \x01(\v2\x14.simsdkrpc.PluginAckH\x00R\x03ack\x12(\n" +
+	"\x03nak\x18\x03 \x01(\v2\x14.simsdkrpc.PluginNakH\x00R\x03nak\x12+\n" +
+	"\x04init\x18\x04 \x01(\v2\x15.simsdkrpc.PluginInitH\x00R\x04init\x127\n" +
+	"\bshutdown\x18\x05 \x01(\v2\x19.simsdkrpc.PluginShutdownH\x00R\bshutdownB\t\n" +
+	"\acontent\"/\n" +
+	"\n" +
+	"PluginInit\x12!\n" +
+	"\fcomponent_id\x18\x01 \x01(\tR\vcomponentId\"(\n" +
+	"\x0ePluginShutdown\x12\x16\n" +
+	"\x06reason\x18\x01 \x01(\tR\x06reason\"*\n" +
+	"\tPluginAck\x12\x1d\n" +
+	"\n" +
+	"message_id\x18\x01 \x01(\tR\tmessageId\"O\n" +
+	"\tPluginNak\x12\x1d\n" +
+	"\n" +
+	"message_id\x18\x01 \x01(\tR\tmessageId\x12#\n" +
+	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage*\x8e\x01\n" +
 	"\tFieldType\x12\x1a\n" +
 	"\x16FIELD_TYPE_UNSPECIFIED\x10\x00\x12\n" +
 	"\n" +
@@ -934,12 +1268,13 @@ const file_plugin_proto_rawDesc = "" +
 	"\tTIMESTAMP\x10\a\x12\f\n" +
 	"\bREPEATED\x10\b\x12\n" +
 	"\n" +
-	"\x06OBJECT\x10\t2\xcf\x02\n" +
+	"\x06OBJECT\x10\t2\xa8\x03\n" +
 	"\rPluginService\x12F\n" +
 	"\vGetManifest\x12\x1a.simsdkrpc.ManifestRequest\x1a\x1b.simsdkrpc.ManifestResponse\x12`\n" +
 	"\x17CreateComponentInstance\x12!.simsdkrpc.CreateComponentRequest\x1a\".simsdkrpc.CreateComponentResponse\x12P\n" +
 	"\x18DestroyComponentInstance\x12\x1c.google.protobuf.StringValue\x1a\x16.google.protobuf.Empty\x12B\n" +
-	"\rHandleMessage\x12\x15.simsdkrpc.SimMessage\x1a\x1a.simsdkrpc.MessageResponseB6Z4github.com/neurosimio/simsdk/rpc/simsdkrpc;simsdkrpcb\x06proto3"
+	"\rHandleMessage\x12\x15.simsdkrpc.SimMessage\x1a\x1a.simsdkrpc.MessageResponse\x12W\n" +
+	"\rMessageStream\x12 .simsdkrpc.PluginMessageEnvelope\x1a .simsdkrpc.PluginMessageEnvelope(\x010\x01B6Z4github.com/neurosimio/simsdk/rpc/simsdkrpc;simsdkrpcb\x06proto3"
 
 var (
 	file_plugin_proto_rawDescOnce sync.Once
@@ -954,7 +1289,7 @@ func file_plugin_proto_rawDescGZIP() []byte {
 }
 
 var file_plugin_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_plugin_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_plugin_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
 var file_plugin_proto_goTypes = []any{
 	(FieldType)(0),                  // 0: simsdkrpc.FieldType
 	(*ManifestRequest)(nil),         // 1: simsdkrpc.ManifestRequest
@@ -969,10 +1304,15 @@ var file_plugin_proto_goTypes = []any{
 	(*CreateComponentResponse)(nil), // 10: simsdkrpc.CreateComponentResponse
 	(*SimMessage)(nil),              // 11: simsdkrpc.SimMessage
 	(*MessageResponse)(nil),         // 12: simsdkrpc.MessageResponse
-	nil,                             // 13: simsdkrpc.CreateComponentRequest.ParametersEntry
-	nil,                             // 14: simsdkrpc.SimMessage.MetadataEntry
-	(*wrapperspb.StringValue)(nil),  // 15: google.protobuf.StringValue
-	(*emptypb.Empty)(nil),           // 16: google.protobuf.Empty
+	(*PluginMessageEnvelope)(nil),   // 13: simsdkrpc.PluginMessageEnvelope
+	(*PluginInit)(nil),              // 14: simsdkrpc.PluginInit
+	(*PluginShutdown)(nil),          // 15: simsdkrpc.PluginShutdown
+	(*PluginAck)(nil),               // 16: simsdkrpc.PluginAck
+	(*PluginNak)(nil),               // 17: simsdkrpc.PluginNak
+	nil,                             // 18: simsdkrpc.CreateComponentRequest.ParametersEntry
+	nil,                             // 19: simsdkrpc.SimMessage.MetadataEntry
+	(*wrapperspb.StringValue)(nil),  // 20: google.protobuf.StringValue
+	(*emptypb.Empty)(nil),           // 21: google.protobuf.Empty
 }
 var file_plugin_proto_depIdxs = []int32{
 	3,  // 0: simsdkrpc.ManifestResponse.manifest:type_name -> simsdkrpc.Manifest
@@ -985,22 +1325,29 @@ var file_plugin_proto_depIdxs = []int32{
 	0,  // 7: simsdkrpc.FieldSpec.type:type_name -> simsdkrpc.FieldType
 	0,  // 8: simsdkrpc.FieldSpec.subtype:type_name -> simsdkrpc.FieldType
 	8,  // 9: simsdkrpc.FieldSpec.object_fields:type_name -> simsdkrpc.FieldSpec
-	13, // 10: simsdkrpc.CreateComponentRequest.parameters:type_name -> simsdkrpc.CreateComponentRequest.ParametersEntry
-	14, // 11: simsdkrpc.SimMessage.metadata:type_name -> simsdkrpc.SimMessage.MetadataEntry
+	18, // 10: simsdkrpc.CreateComponentRequest.parameters:type_name -> simsdkrpc.CreateComponentRequest.ParametersEntry
+	19, // 11: simsdkrpc.SimMessage.metadata:type_name -> simsdkrpc.SimMessage.MetadataEntry
 	11, // 12: simsdkrpc.MessageResponse.outbound_messages:type_name -> simsdkrpc.SimMessage
-	1,  // 13: simsdkrpc.PluginService.GetManifest:input_type -> simsdkrpc.ManifestRequest
-	9,  // 14: simsdkrpc.PluginService.CreateComponentInstance:input_type -> simsdkrpc.CreateComponentRequest
-	15, // 15: simsdkrpc.PluginService.DestroyComponentInstance:input_type -> google.protobuf.StringValue
-	11, // 16: simsdkrpc.PluginService.HandleMessage:input_type -> simsdkrpc.SimMessage
-	2,  // 17: simsdkrpc.PluginService.GetManifest:output_type -> simsdkrpc.ManifestResponse
-	10, // 18: simsdkrpc.PluginService.CreateComponentInstance:output_type -> simsdkrpc.CreateComponentResponse
-	16, // 19: simsdkrpc.PluginService.DestroyComponentInstance:output_type -> google.protobuf.Empty
-	12, // 20: simsdkrpc.PluginService.HandleMessage:output_type -> simsdkrpc.MessageResponse
-	17, // [17:21] is the sub-list for method output_type
-	13, // [13:17] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	11, // 13: simsdkrpc.PluginMessageEnvelope.sim_message:type_name -> simsdkrpc.SimMessage
+	16, // 14: simsdkrpc.PluginMessageEnvelope.ack:type_name -> simsdkrpc.PluginAck
+	17, // 15: simsdkrpc.PluginMessageEnvelope.nak:type_name -> simsdkrpc.PluginNak
+	14, // 16: simsdkrpc.PluginMessageEnvelope.init:type_name -> simsdkrpc.PluginInit
+	15, // 17: simsdkrpc.PluginMessageEnvelope.shutdown:type_name -> simsdkrpc.PluginShutdown
+	1,  // 18: simsdkrpc.PluginService.GetManifest:input_type -> simsdkrpc.ManifestRequest
+	9,  // 19: simsdkrpc.PluginService.CreateComponentInstance:input_type -> simsdkrpc.CreateComponentRequest
+	20, // 20: simsdkrpc.PluginService.DestroyComponentInstance:input_type -> google.protobuf.StringValue
+	11, // 21: simsdkrpc.PluginService.HandleMessage:input_type -> simsdkrpc.SimMessage
+	13, // 22: simsdkrpc.PluginService.MessageStream:input_type -> simsdkrpc.PluginMessageEnvelope
+	2,  // 23: simsdkrpc.PluginService.GetManifest:output_type -> simsdkrpc.ManifestResponse
+	10, // 24: simsdkrpc.PluginService.CreateComponentInstance:output_type -> simsdkrpc.CreateComponentResponse
+	21, // 25: simsdkrpc.PluginService.DestroyComponentInstance:output_type -> google.protobuf.Empty
+	12, // 26: simsdkrpc.PluginService.HandleMessage:output_type -> simsdkrpc.MessageResponse
+	13, // 27: simsdkrpc.PluginService.MessageStream:output_type -> simsdkrpc.PluginMessageEnvelope
+	23, // [23:28] is the sub-list for method output_type
+	18, // [18:23] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_plugin_proto_init() }
@@ -1008,13 +1355,20 @@ func file_plugin_proto_init() {
 	if File_plugin_proto != nil {
 		return
 	}
+	file_plugin_proto_msgTypes[12].OneofWrappers = []any{
+		(*PluginMessageEnvelope_SimMessage)(nil),
+		(*PluginMessageEnvelope_Ack)(nil),
+		(*PluginMessageEnvelope_Nak)(nil),
+		(*PluginMessageEnvelope_Init)(nil),
+		(*PluginMessageEnvelope_Shutdown)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_plugin_proto_rawDesc), len(file_plugin_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   14,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

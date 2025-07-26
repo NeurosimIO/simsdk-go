@@ -282,3 +282,43 @@ func FuzzToProtoFieldType(f *testing.F) {
 		_ = toProtoFieldType(FieldType(input)) // Ensure no panic
 	})
 }
+
+func TestToProtoSimMessageAndBack(t *testing.T) {
+	original := &SimMessage{
+		MessageType: "core.status.update",
+		MessageID:   "msg-001",
+		ComponentID: "core-system",
+		Payload:     []byte(`{"status":"running"}`),
+		Metadata: map[string]string{
+			"traceId":  "abc123",
+			"priority": "high",
+		},
+	}
+
+	proto := ToProtoSimMessage(original)
+	if proto == nil {
+		t.Fatal("ToProtoSimMessage returned nil")
+	}
+	if proto.MessageType != original.MessageType || proto.ComponentId != original.ComponentID {
+		t.Errorf("Proto fields mismatch: %+v", proto)
+	}
+	if string(proto.Payload) != string(original.Payload) {
+		t.Errorf("Payload mismatch: got %s, want %s", proto.Payload, original.Payload)
+	}
+	if len(proto.Metadata) != len(original.Metadata) {
+		t.Errorf("Metadata length mismatch")
+	}
+
+	roundTrip := FromProtoSimMessage(proto)
+	if roundTrip.MessageID != original.MessageID || roundTrip.ComponentID != original.ComponentID {
+		t.Errorf("Round-trip field mismatch: got %+v, want %+v", roundTrip, original)
+	}
+	if string(roundTrip.Payload) != string(original.Payload) {
+		t.Errorf("Round-trip payload mismatch")
+	}
+	for k, v := range original.Metadata {
+		if roundTrip.Metadata[k] != v {
+			t.Errorf("Metadata value for %s mismatch: got %s, want %s", k, roundTrip.Metadata[k], v)
+		}
+	}
+}

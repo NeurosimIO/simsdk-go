@@ -1,7 +1,12 @@
 // Package simsdk provides core interfaces and types for building simulation plugins
 package simsdk
 
-import "github.com/neurosimio/simsdk-go/rpc/simsdkrpc"
+import (
+	"io"
+	"log"
+
+	"github.com/neurosimio/simsdk-go/rpc/simsdkrpc"
+)
 
 // Plugin is the main interface all simulation plugins must implement
 type Plugin interface {
@@ -37,6 +42,13 @@ type SimMessage struct {
 	Payload     []byte
 	Metadata    map[string]string
 }
+
+type StreamHandler interface {
+	OnSimMessage(msg *SimMessage) ([]*SimMessage, error)
+	OnInit(init *simsdkrpc.PluginInit) error
+	OnShutdown(reason string)
+}
+
 type PluginWithHandlers interface {
 	Plugin
 	CreateComponentInstance(req CreateComponentRequest) error
@@ -51,4 +63,68 @@ type CreateComponentRequest struct {
 
 func (m Manifest) ToProto() *simsdkrpc.Manifest {
 	return ToProtoManifest(m)
+}
+
+func ServeStream(stream simsdkrpc.PluginService_MessageStreamServer, handler StreamHandler) error {
+	for {
+		in, err := stream.Recv()
+		if err == io.EOF {
+			log.Println("🔚 Stream closed by client")
+			return nil
+		}
+		if err != nil {
+			log.Printf("❌ Error receiving from stream: %v\n", err)
+			return err
+		}
+
+		switch msg := in.Content.(type) {
+		case *simsdkrpc.PluginMessageEnvelope_Init:
+			if err := handler.OnInit(msg.Init); err != nil {
+				log.Printf("⚠️ OnInit failed: %v\n", err)
+				return err
+			}
+
+		case *simsdkrpc.PluginMessageEnvelope_SimMessage:
+			sdkMsg := FromProtoSimMessage(msg.SimMessage)
+			responses, err := handler.OnSimMessage(sdkMsg)
+			if err != nil {
+				log.Printf("❌ OnSimMessage failed: %v\n", err)
+				_ = stream.Send(&simsdkrpc.PluginMessageEnvelope{
+					Content: &simsdkrpc.PluginMessageEnvelope_Nak{
+						Nak: &simsdkrpc.PluginNak{
+							MessageId:    msg.SimMessage.MessageId,
+							ErrorMessage: err.Error(),
+						},
+					},
+				})
+				continue
+			}
+
+			for _, resp := range responses {
+				if err := stream.Send(&simsdkrpc.PluginMessageEnvelope{
+					Content: &simsdkrpc.PluginMessageEnvelope_SimMessage{
+						SimMessage: ToProtoSimMessage(resp),
+					},
+				}); err != nil {
+					log.Printf("❌ Failed to send SimMessage: %v\n", err)
+					return err
+				}
+			}
+
+			_ = stream.Send(&simsdkrpc.PluginMessageEnvelope{
+				Content: &simsdkrpc.PluginMessageEnvelope_Ack{
+					Ack: &simsdkrpc.PluginAck{
+						MessageId: msg.SimMessage.MessageId,
+					},
+				},
+			})
+
+		case *simsdkrpc.PluginMessageEnvelope_Shutdown:
+			handler.OnShutdown(msg.Shutdown.Reason)
+			return nil
+
+		default:
+			log.Printf("⚠️ Unknown message type in PluginMessageEnvelope: %T\n", msg)
+		}
+	}
 }

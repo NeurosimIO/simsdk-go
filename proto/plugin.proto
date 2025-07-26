@@ -12,6 +12,7 @@ service PluginService {
   rpc CreateComponentInstance(CreateComponentRequest) returns (CreateComponentResponse);
   rpc DestroyComponentInstance(google.protobuf.StringValue) returns (google.protobuf.Empty);
   rpc HandleMessage(SimMessage) returns (MessageResponse);
+  rpc MessageStream(stream PluginMessageEnvelope) returns (stream PluginMessageEnvelope);
 }
  
 message ManifestRequest {}
@@ -100,4 +101,31 @@ message SimMessage {
 
 message MessageResponse {
   repeated SimMessage outbound_messages = 1;
+}
+
+message PluginMessageEnvelope {
+  oneof content {
+    SimMessage sim_message = 1;
+    PluginAck ack = 2;
+    PluginNak nak = 3;
+    PluginInit init = 4;
+    PluginShutdown shutdown = 5;
+  }
+}
+
+message PluginInit {
+  string component_id = 1;
+}
+
+message PluginShutdown {
+  string reason = 1;
+}
+
+message PluginAck {
+  string message_id = 1;
+}
+
+message PluginNak {
+  string message_id = 1;
+  string error_message = 2;
 }
