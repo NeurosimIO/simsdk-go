@@ -15,12 +15,12 @@ type Plugin interface {
 
 // Manifest describes what this plugin provides
 type Manifest struct {
-	Name             string
-	Version          string
-	MessageTypes     []MessageType
-	ControlFunctions []ControlFunctionType
-	ComponentTypes   []ComponentType
-	TransportTypes   []TransportType
+	Name             string                `json:"name"`
+	Version          string                `json:"version"`
+	MessageTypes     []MessageType         `json:"messageTypes"`
+	ControlFunctions []ControlFunctionType `json:"controlFunctions"`
+	ComponentTypes   []ComponentType       `json:"componentTypes"`
+	TransportTypes   []TransportType       `json:"transportTypes"`
 }
 
 var registeredManifests []Manifest
@@ -36,11 +36,11 @@ func GetAllRegisteredManifests() []Manifest {
 }
 
 type SimMessage struct {
-	MessageType string
-	MessageID   string
-	ComponentID string
-	Payload     []byte
-	Metadata    map[string]string
+	MessageType string            `json:"messageType"`
+	MessageID   string            `json:"messageId"`
+	ComponentID string            `json:"componentId"`
+	Payload     []byte            `json:"payload"`
+	Metadata    map[string]string `json:"metadata,omitempty"`
 }
 
 type StreamHandler interface {
@@ -56,9 +56,9 @@ type PluginWithHandlers interface {
 	HandleMessage(msg SimMessage) ([]SimMessage, error)
 }
 type CreateComponentRequest struct {
-	ComponentType string            // The declared ComponentType.ID from the manifest
-	ComponentID   string            // Unique instance ID (e.g., "locomotive-001")
-	Parameters    map[string]string // Optional plugin-specific initialization parameters
+	ComponentType string            `json:"componentType"`        // Corresponds to ComponentType.ID from manifest
+	ComponentID   string            `json:"componentId"`          // e.g., "locomotive-001"
+	Parameters    map[string]string `json:"parameters,omitempty"` // Optional plugin-specific init parameters
 }
 
 func (m Manifest) ToProto() *simsdkrpc.Manifest {
