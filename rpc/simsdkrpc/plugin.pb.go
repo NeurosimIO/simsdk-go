@@ -1167,6 +1167,94 @@ func (x *PluginNak) GetErrorMessage() string {
 	return ""
 }
 
+type DestroyComponentRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ComponentId   string                 `protobuf:"bytes,1,opt,name=component_id,json=componentId,proto3" json:"component_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DestroyComponentRequest) Reset() {
+	*x = DestroyComponentRequest{}
+	mi := &file_plugin_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DestroyComponentRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DestroyComponentRequest) ProtoMessage() {}
+
+func (x *DestroyComponentRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DestroyComponentRequest.ProtoReflect.Descriptor instead.
+func (*DestroyComponentRequest) Descriptor() ([]byte, []int) {
+	return file_plugin_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *DestroyComponentRequest) GetComponentId() string {
+	if x != nil {
+		return x.ComponentId
+	}
+	return ""
+}
+
+type DestroyComponentResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DestroyComponentResponse) Reset() {
+	*x = DestroyComponentResponse{}
+	mi := &file_plugin_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DestroyComponentResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DestroyComponentResponse) ProtoMessage() {}
+
+func (x *DestroyComponentResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DestroyComponentResponse.ProtoReflect.Descriptor instead.
+func (*DestroyComponentResponse) Descriptor() ([]byte, []int) {
+	return file_plugin_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *DestroyComponentResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
 var File_plugin_proto protoreflect.FileDescriptor
 
 const file_plugin_proto_rawDesc = "" +
@@ -1255,7 +1343,11 @@ const file_plugin_proto_rawDesc = "" +
 	"\tPluginNak\x12\x1d\n" +
 	"\n" +
 	"message_id\x18\x01 \x01(\tR\tmessageId\x12#\n" +
-	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage*\x8e\x01\n" +
+	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\"<\n" +
+	"\x17DestroyComponentRequest\x12!\n" +
+	"\fcomponent_id\x18\x01 \x01(\tR\vcomponentId\"4\n" +
+	"\x18DestroyComponentResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess*\x8e\x01\n" +
 	"\tFieldType\x12\x1a\n" +
 	"\x16FIELD_TYPE_UNSPECIFIED\x10\x00\x12\n" +
 	"\n" +
@@ -1289,30 +1381,32 @@ func file_plugin_proto_rawDescGZIP() []byte {
 }
 
 var file_plugin_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_plugin_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
+var file_plugin_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_plugin_proto_goTypes = []any{
-	(FieldType)(0),                  // 0: simsdkrpc.FieldType
-	(*ManifestRequest)(nil),         // 1: simsdkrpc.ManifestRequest
-	(*ManifestResponse)(nil),        // 2: simsdkrpc.ManifestResponse
-	(*Manifest)(nil),                // 3: simsdkrpc.Manifest
-	(*MessageType)(nil),             // 4: simsdkrpc.MessageType
-	(*ControlFunctionType)(nil),     // 5: simsdkrpc.ControlFunctionType
-	(*ComponentType)(nil),           // 6: simsdkrpc.ComponentType
-	(*TransportType)(nil),           // 7: simsdkrpc.TransportType
-	(*FieldSpec)(nil),               // 8: simsdkrpc.FieldSpec
-	(*CreateComponentRequest)(nil),  // 9: simsdkrpc.CreateComponentRequest
-	(*CreateComponentResponse)(nil), // 10: simsdkrpc.CreateComponentResponse
-	(*SimMessage)(nil),              // 11: simsdkrpc.SimMessage
-	(*MessageResponse)(nil),         // 12: simsdkrpc.MessageResponse
-	(*PluginMessageEnvelope)(nil),   // 13: simsdkrpc.PluginMessageEnvelope
-	(*PluginInit)(nil),              // 14: simsdkrpc.PluginInit
-	(*PluginShutdown)(nil),          // 15: simsdkrpc.PluginShutdown
-	(*PluginAck)(nil),               // 16: simsdkrpc.PluginAck
-	(*PluginNak)(nil),               // 17: simsdkrpc.PluginNak
-	nil,                             // 18: simsdkrpc.CreateComponentRequest.ParametersEntry
-	nil,                             // 19: simsdkrpc.SimMessage.MetadataEntry
-	(*wrapperspb.StringValue)(nil),  // 20: google.protobuf.StringValue
-	(*emptypb.Empty)(nil),           // 21: google.protobuf.Empty
+	(FieldType)(0),                   // 0: simsdkrpc.FieldType
+	(*ManifestRequest)(nil),          // 1: simsdkrpc.ManifestRequest
+	(*ManifestResponse)(nil),         // 2: simsdkrpc.ManifestResponse
+	(*Manifest)(nil),                 // 3: simsdkrpc.Manifest
+	(*MessageType)(nil),              // 4: simsdkrpc.MessageType
+	(*ControlFunctionType)(nil),      // 5: simsdkrpc.ControlFunctionType
+	(*ComponentType)(nil),            // 6: simsdkrpc.ComponentType
+	(*TransportType)(nil),            // 7: simsdkrpc.TransportType
+	(*FieldSpec)(nil),                // 8: simsdkrpc.FieldSpec
+	(*CreateComponentRequest)(nil),   // 9: simsdkrpc.CreateComponentRequest
+	(*CreateComponentResponse)(nil),  // 10: simsdkrpc.CreateComponentResponse
+	(*SimMessage)(nil),               // 11: simsdkrpc.SimMessage
+	(*MessageResponse)(nil),          // 12: simsdkrpc.MessageResponse
+	(*PluginMessageEnvelope)(nil),    // 13: simsdkrpc.PluginMessageEnvelope
+	(*PluginInit)(nil),               // 14: simsdkrpc.PluginInit
+	(*PluginShutdown)(nil),           // 15: simsdkrpc.PluginShutdown
+	(*PluginAck)(nil),                // 16: simsdkrpc.PluginAck
+	(*PluginNak)(nil),                // 17: simsdkrpc.PluginNak
+	(*DestroyComponentRequest)(nil),  // 18: simsdkrpc.DestroyComponentRequest
+	(*DestroyComponentResponse)(nil), // 19: simsdkrpc.DestroyComponentResponse
+	nil,                              // 20: simsdkrpc.CreateComponentRequest.ParametersEntry
+	nil,                              // 21: simsdkrpc.SimMessage.MetadataEntry
+	(*wrapperspb.StringValue)(nil),   // 22: google.protobuf.StringValue
+	(*emptypb.Empty)(nil),            // 23: google.protobuf.Empty
 }
 var file_plugin_proto_depIdxs = []int32{
 	3,  // 0: simsdkrpc.ManifestResponse.manifest:type_name -> simsdkrpc.Manifest
@@ -1325,8 +1419,8 @@ var file_plugin_proto_depIdxs = []int32{
 	0,  // 7: simsdkrpc.FieldSpec.type:type_name -> simsdkrpc.FieldType
 	0,  // 8: simsdkrpc.FieldSpec.subtype:type_name -> simsdkrpc.FieldType
 	8,  // 9: simsdkrpc.FieldSpec.object_fields:type_name -> simsdkrpc.FieldSpec
-	18, // 10: simsdkrpc.CreateComponentRequest.parameters:type_name -> simsdkrpc.CreateComponentRequest.ParametersEntry
-	19, // 11: simsdkrpc.SimMessage.metadata:type_name -> simsdkrpc.SimMessage.MetadataEntry
+	20, // 10: simsdkrpc.CreateComponentRequest.parameters:type_name -> simsdkrpc.CreateComponentRequest.ParametersEntry
+	21, // 11: simsdkrpc.SimMessage.metadata:type_name -> simsdkrpc.SimMessage.MetadataEntry
 	11, // 12: simsdkrpc.MessageResponse.outbound_messages:type_name -> simsdkrpc.SimMessage
 	11, // 13: simsdkrpc.PluginMessageEnvelope.sim_message:type_name -> simsdkrpc.SimMessage
 	16, // 14: simsdkrpc.PluginMessageEnvelope.ack:type_name -> simsdkrpc.PluginAck
@@ -1335,12 +1429,12 @@ var file_plugin_proto_depIdxs = []int32{
 	15, // 17: simsdkrpc.PluginMessageEnvelope.shutdown:type_name -> simsdkrpc.PluginShutdown
 	1,  // 18: simsdkrpc.PluginService.GetManifest:input_type -> simsdkrpc.ManifestRequest
 	9,  // 19: simsdkrpc.PluginService.CreateComponentInstance:input_type -> simsdkrpc.CreateComponentRequest
-	20, // 20: simsdkrpc.PluginService.DestroyComponentInstance:input_type -> google.protobuf.StringValue
+	22, // 20: simsdkrpc.PluginService.DestroyComponentInstance:input_type -> google.protobuf.StringValue
 	11, // 21: simsdkrpc.PluginService.HandleMessage:input_type -> simsdkrpc.SimMessage
 	13, // 22: simsdkrpc.PluginService.MessageStream:input_type -> simsdkrpc.PluginMessageEnvelope
 	2,  // 23: simsdkrpc.PluginService.GetManifest:output_type -> simsdkrpc.ManifestResponse
 	10, // 24: simsdkrpc.PluginService.CreateComponentInstance:output_type -> simsdkrpc.CreateComponentResponse
-	21, // 25: simsdkrpc.PluginService.DestroyComponentInstance:output_type -> google.protobuf.Empty
+	23, // 25: simsdkrpc.PluginService.DestroyComponentInstance:output_type -> google.protobuf.Empty
 	12, // 26: simsdkrpc.PluginService.HandleMessage:output_type -> simsdkrpc.MessageResponse
 	13, // 27: simsdkrpc.PluginService.MessageStream:output_type -> simsdkrpc.PluginMessageEnvelope
 	23, // [23:28] is the sub-list for method output_type
@@ -1368,7 +1462,7 @@ func file_plugin_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_plugin_proto_rawDesc), len(file_plugin_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   19,
+			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

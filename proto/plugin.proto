@@ -129,3 +129,11 @@ message PluginNak {
   string message_id = 1;
   string error_message = 2;
 }
+
+message DestroyComponentRequest {
+  string component_id = 1;
+}
+
+message DestroyComponentResponse {
+  bool success = 1;
+}
