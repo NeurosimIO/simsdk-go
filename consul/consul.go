@@ -1,10 +1,10 @@
-// Package consul package allows plugins to register with Consul sidecar
+// Package consul allows plugins to register with Consul using a DI-friendly design.
 package consul
 
 import (
+	"context"
 	"fmt"
 	"log"
-	"net"
 	"os"
 	"os/signal"
 	"syscall"
@@ -13,70 +13,109 @@ import (
 	"github.com/hashicorp/consul/api"
 )
 
+// RegistrationConfig holds service metadata for Consul registration.
 type RegistrationConfig struct {
 	Name          string
-	Address       string // Usually the IP of the container/pod
+	Address       string // Required: IP or hostname as seen by core
 	Port          int
-	CheckPath     string // e.g., "/health"
-	CheckInterval time.Duration
+	CheckPath     string        // e.g., "/health"
+	CheckInterval time.Duration // e.g., 10 * time.Second
 }
 
-// RegisterWithConsul registers the plugin as a service in Consul,
-// adds a health check, and deregisters on shutdown.
-func RegisterWithConsul(cfg RegistrationConfig) {
-	client, err := api.NewClient(api.DefaultConfig())
-	if err != nil {
-		log.Printf("⚠️ Consul client creation failed: %v", err)
-		return // fail gracefully
+// AgentRegistrar abstracts Consul's Agent API for testability.
+type AgentRegistrar interface {
+	Register(service *api.AgentServiceRegistration) error
+	Deregister(serviceID string) error
+}
+
+// DefaultAgentRegistrar wraps the real Consul client agent.
+type DefaultAgentRegistrar struct {
+	agent *api.Agent
+}
+
+func (d *DefaultAgentRegistrar) Register(service *api.AgentServiceRegistration) error {
+	return d.agent.ServiceRegister(service)
+}
+func (d *DefaultAgentRegistrar) Deregister(serviceID string) error {
+	return d.agent.ServiceDeregister(serviceID)
+}
+
+// Registrar manages Consul registration with injected dependencies.
+type Registrar struct {
+	Log      *log.Logger
+	Agent    AgentRegistrar
+	Shutdown chan os.Signal
+}
+
+// NewRegistrar constructs a new Registrar with DI-compatible fields.
+func NewRegistrar(logger *log.Logger, client *api.Client) *Registrar {
+	return &Registrar{
+		Log:      logger,
+		Agent:    &DefaultAgentRegistrar{agent: client.Agent()},
+		Shutdown: make(chan os.Signal, 1),
+	}
+}
+
+// Register registers the plugin and manages graceful deregistration.
+// Register registers the plugin and manages graceful deregistration.
+func (r *Registrar) Register(ctx context.Context, cfg RegistrationConfig) {
+	if cfg.Address == "" {
+		r.Log.Printf("❌ Plugin registration failed: Address must be provided")
+		return
 	}
 
 	serviceID := fmt.Sprintf("%s-%d", cfg.Name, cfg.Port)
-	address := cfg.Address
-	if address == "" {
-		address = getLocalIP()
-	}
-
 	reg := &api.AgentServiceRegistration{
 		ID:      serviceID,
 		Name:    cfg.Name,
-		Address: address,
+		Address: cfg.Address,
 		Port:    cfg.Port,
 		Check: &api.AgentServiceCheck{
-			HTTP:     fmt.Sprintf("http://%s:%d%s", address, cfg.Port, cfg.CheckPath),
+			HTTP:     fmt.Sprintf("http://%s:%d%s", cfg.Address, cfg.Port, cfg.CheckPath),
 			Interval: cfg.CheckInterval.String(),
 			Timeout:  "2s",
 		},
 	}
 
-	if err := client.Agent().ServiceRegister(reg); err != nil {
-		log.Printf("⚠️ Failed to register with Consul: %v", err)
+	// Add timeout to registration process
+	regCtx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	defer cancel()
+
+	done := make(chan error, 1)
+	go func() {
+		err := r.Agent.Register(reg)
+		done <- err
+	}()
+
+	select {
+	case <-regCtx.Done():
+		r.Log.Printf("⏱️ Plugin registration timed out: %v", regCtx.Err())
 		return
+	case err := <-done:
+		if err != nil {
+			r.Log.Printf("⚠️ Failed to register with Consul: %v", err)
+			return
+		}
 	}
-	log.Printf("✅ Registered plugin with Consul as %s on %s:%d", cfg.Name, address, cfg.Port)
+
+	r.Log.Printf("✅ Registered plugin with Consul as %s on %s:%d", cfg.Name, cfg.Address, cfg.Port)
 
 	// Handle graceful shutdown
 	go func() {
-		sigCh := make(chan os.Signal, 1)
-		signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
-		<-sigCh
+		signal.Notify(r.Shutdown, syscall.SIGINT, syscall.SIGTERM)
+		select {
+		case <-r.Shutdown:
+		case <-ctx.Done():
+			r.Log.Printf("⏹️ Context canceled before shutdown")
+			return
+		}
 
-		log.Printf("📦 Deregistering plugin %s from Consul...", serviceID)
-		if err := client.Agent().ServiceDeregister(serviceID); err != nil {
-			log.Printf("❌ Failed to deregister plugin: %v", err)
+		r.Log.Printf("📦 Deregistering plugin %s from Consul...", serviceID)
+		if err := r.Agent.Deregister(serviceID); err != nil {
+			r.Log.Printf("❌ Failed to deregister plugin: %v", err)
 		} else {
-			log.Printf("🧹 Plugin %s deregistered from Consul", serviceID)
+			r.Log.Printf("🧹 Plugin %s deregistered from Consul", serviceID)
 		}
 		os.Exit(0)
 	}()
-}
-
-func getLocalIP() string {
-	// Try to resolve local IP for registration
-	conn, err := net.Dial("udp", "1.1.1.1:53")
-	if err != nil {
-		return "127.0.0.1"
-	}
-	defer conn.Close()
-	localAddr := conn.LocalAddr().(*net.UDPAddr)
-	return localAddr.IP.String()
 }
