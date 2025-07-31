@@ -76,7 +76,7 @@ func TestToProtoManifest_RoundTrip(t *testing.T) {
 				{Name: "field2", Type: FieldEnum, EnumValues: []string{"A", "B"}, Repeated: true},
 			},
 		}},
-		ControlFunctions: []ControlFunctionType{{
+		ControlFunctionTypes: []ControlFunctionType{{
 			ID:          "cf1",
 			DisplayName: "Control One",
 			Description: "A control function",

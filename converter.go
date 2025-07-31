@@ -13,7 +13,7 @@ func ToProtoManifest(m Manifest) *simsdkrpc.Manifest {
 	for _, mt := range m.MessageTypes {
 		proto.MessageTypes = append(proto.MessageTypes, toProtoMessageType(mt))
 	}
-	for _, ct := range m.ControlFunctions {
+	for _, ct := range m.ControlFunctionTypes {
 		proto.ControlFunctions = append(proto.ControlFunctions, toProtoControlFunction(ct))
 	}
 	for _, cmp := range m.ComponentTypes {
@@ -32,12 +32,12 @@ func ToProtoManifest(m Manifest) *simsdkrpc.Manifest {
 
 func FromProtoManifest(p *simsdkrpc.Manifest) Manifest {
 	return Manifest{
-		Name:             p.Name,
-		Version:          p.Version,
-		MessageTypes:     fromProtoMessageTypes(p.MessageTypes),
-		ControlFunctions: fromProtoControlFunctions(p.ControlFunctions),
-		ComponentTypes:   fromProtoComponentTypes(p.ComponentTypes),
-		TransportTypes:   fromProtoTransportTypes(p.TransportTypes),
+		Name:                 p.Name,
+		Version:              p.Version,
+		MessageTypes:         fromProtoMessageTypes(p.MessageTypes),
+		ControlFunctionTypes: fromProtoControlFunctions(p.ControlFunctions),
+		ComponentTypes:       fromProtoComponentTypes(p.ComponentTypes),
+		TransportTypes:       fromProtoTransportTypes(p.TransportTypes),
 	}
 }
 

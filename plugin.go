@@ -15,12 +15,12 @@ type Plugin interface {
 
 // Manifest describes what this plugin provides
 type Manifest struct {
-	Name             string                `json:"name"`
-	Version          string                `json:"version"`
-	MessageTypes     []MessageType         `json:"messageTypes"`
-	ControlFunctions []ControlFunctionType `json:"controlFunctions"`
-	ComponentTypes   []ComponentType       `json:"componentTypes"`
-	TransportTypes   []TransportType       `json:"transportTypes"`
+	Name                 string                `json:"name"`
+	Version              string                `json:"version"`
+	MessageTypes         []MessageType         `json:"messageTypes"`
+	ControlFunctionTypes []ControlFunctionType `json:"controlFunctionTypes"`
+	ComponentTypes       []ComponentType       `json:"componentTypes"`
+	TransportTypes       []TransportType       `json:"transportTypes"`
 }
 
 var registeredManifests []Manifest
