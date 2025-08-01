@@ -43,6 +43,10 @@ type SimMessage struct {
 	Metadata    map[string]string `json:"metadata,omitempty"`
 }
 
+type StreamSender interface {
+	Send(msg *SimMessage) error
+}
+
 type StreamHandler interface {
 	OnSimMessage(msg *SimMessage) ([]*SimMessage, error)
 	OnInit(init *simsdkrpc.PluginInit) error
