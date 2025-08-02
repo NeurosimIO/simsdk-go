@@ -1,0 +1,12 @@
+
+services:
+  plugin-allocator:
+    build:
+      context: .  # Must point to project root (where go.mod is)
+      dockerfile: Dockerfile
+    container_name: simulator-core-api-test-server
+    ports:
+      - "8080:8080"
+    environment:
+      - ALLOCATOR_PORT=8080
+      - ALLOCATOR_BASE_PORT=9100

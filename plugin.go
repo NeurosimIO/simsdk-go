@@ -65,6 +65,16 @@ type CreateComponentRequest struct {
 	Parameters    map[string]string `json:"parameters,omitempty"` // Optional plugin-specific init parameters
 }
 
+// RegisterRequest is sent by a plugin to register itself with the simulator core.
+type RegisterRequest struct {
+	Plugin string `json:"plugin"` // Logical plugin name, e.g., "amqp-sender"
+	Type   string `json:"type"`   // Optional: transport, system, etc.
+	IP     string `json:"ip"`     // Hostname or IP of the plugin's gRPC server
+	Port   int    `json:"port"`   // Port of the plugin's gRPC server
+}
+
+type RegisteredPlugins map[string]RegisterRequest
+
 func (m Manifest) ToProto() *simsdkrpc.Manifest {
 	return ToProtoManifest(m)
 }
