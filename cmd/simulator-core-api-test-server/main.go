@@ -10,18 +10,13 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+
+	"github.com/neurosimio/simsdk-go"
 )
 
 // AllocateResponse defines the JSON response for port allocations.
 type AllocateResponse struct {
 	Port int `json:"port"`
-}
-
-// RegisterRequest represents a plugin registration request.
-type RegisterRequest struct {
-	ComponentID   string            `json:"component_id"`
-	ComponentType string            `json:"component_type"`
-	Parameters    map[string]string `json:"parameters"`
 }
 
 // PortRegistry tracks plugin-to-port assignments in memory.
@@ -52,28 +47,28 @@ func (r *PortRegistry) GetAll() map[string]int {
 	return copy
 }
 
-// RegisteredPluginRegistry tracks plugin registration metadata.
+// RegisteredPluginRegistry uses the SDK's types
 type RegisteredPluginRegistry struct {
 	mu      sync.RWMutex
-	plugins map[string]RegisterRequest
+	plugins simsdk.RegisteredPlugins
 }
 
 func NewRegisteredPluginRegistry() *RegisteredPluginRegistry {
 	return &RegisteredPluginRegistry{
-		plugins: make(map[string]RegisterRequest),
+		plugins: make(simsdk.RegisteredPlugins),
 	}
 }
 
-func (r *RegisteredPluginRegistry) Add(id string, req RegisterRequest) {
+func (r *RegisteredPluginRegistry) Add(req simsdk.RegisterRequest) {
 	r.mu.Lock()
 	defer r.mu.Unlock()
-	r.plugins[id] = req
+	r.plugins[req.Plugin] = req
 }
 
-func (r *RegisteredPluginRegistry) GetAll() map[string]RegisterRequest {
+func (r *RegisteredPluginRegistry) GetAll() simsdk.RegisteredPlugins {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
-	copy := make(map[string]RegisterRequest, len(r.plugins))
+	copy := make(simsdk.RegisteredPlugins, len(r.plugins))
 	for k, v := range r.plugins {
 		copy[k] = v
 	}
@@ -165,18 +160,18 @@ func (s *AllocatorServer) handleRegister(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	var req RegisterRequest
+	var req simsdk.RegisterRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, "invalid JSON", http.StatusBadRequest)
 		return
 	}
-	if strings.TrimSpace(req.ComponentID) == "" || strings.TrimSpace(req.ComponentType) == "" {
-		http.Error(w, "missing required fields", http.StatusBadRequest)
+	if strings.TrimSpace(req.Plugin) == "" {
+		http.Error(w, "missing required field: plugin", http.StatusBadRequest)
 		return
 	}
 
-	s.PluginReg.Add(req.ComponentID, req)
-	s.Logger.Printf("📝 Registered plugin %s of type %s", req.ComponentID, req.ComponentType)
+	s.PluginReg.Add(req)
+	s.Logger.Printf("📝 Registered plugin %s (%s) at %s:%d", req.Plugin, req.Type, req.IP, req.Port)
 	w.WriteHeader(http.StatusOK)
 }
 
