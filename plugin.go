@@ -100,8 +100,8 @@ func (s *streamSenderAdapter) Send(msg *SimMessage) error {
 func ServeStream(handler StreamHandler, stream simsdkrpc.PluginService_MessageStreamServer) error {
 	// Inject StreamSender into handler if it supports it
 	if setter, ok := handler.(StreamSenderSetter); ok {
-		log.Printf("🔧 Calling SetStreamSender on stream handler")
-		setter.SetStreamSender(&streamSenderAdapter{stream})
+		log.Println("🔧 Setting stream sender via SetStreamSender")
+		setter.SetStreamSender(&streamSenderAdapter{stream: stream})
 	}
 
 	for {
@@ -117,12 +117,14 @@ func ServeStream(handler StreamHandler, stream simsdkrpc.PluginService_MessageSt
 
 		switch msg := in.Content.(type) {
 		case *simsdkrpc.PluginMessageEnvelope_Init:
+			log.Println("⚙️ Received Init message")
 			if err := handler.OnInit(msg.Init); err != nil {
 				log.Printf("⚠️ OnInit failed: %v\n", err)
 				return err
 			}
 
 		case *simsdkrpc.PluginMessageEnvelope_SimMessage:
+			log.Printf("📨 Received SimMessage: %s", msg.SimMessage.MessageId)
 			sdkMsg := FromProtoSimMessage(msg.SimMessage)
 			responses, err := handler.OnSimMessage(sdkMsg)
 			if err != nil {
@@ -139,6 +141,7 @@ func ServeStream(handler StreamHandler, stream simsdkrpc.PluginService_MessageSt
 			}
 
 			for _, resp := range responses {
+				log.Printf("📤 Sending response message: %s", resp.MessageID)
 				if err := stream.Send(&simsdkrpc.PluginMessageEnvelope{
 					Content: &simsdkrpc.PluginMessageEnvelope_SimMessage{
 						SimMessage: ToProtoSimMessage(resp),
@@ -158,6 +161,7 @@ func ServeStream(handler StreamHandler, stream simsdkrpc.PluginService_MessageSt
 			})
 
 		case *simsdkrpc.PluginMessageEnvelope_Shutdown:
+			log.Println("🛑 Received Shutdown message")
 			handler.OnShutdown(msg.Shutdown.Reason)
 			return nil
 
