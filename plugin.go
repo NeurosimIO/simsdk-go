@@ -13,6 +13,11 @@ type Plugin interface {
 	GetManifest() Manifest
 }
 
+// StreamSenderSetter is implemented by plugins or handlers that accept a StreamSender.
+type StreamSenderSetter interface {
+	SetStreamSender(sender StreamSender)
+}
+
 // Manifest describes what this plugin provides
 type Manifest struct {
 	Name                 string                `json:"name"`
@@ -80,7 +85,25 @@ func (m Manifest) ToProto() *simsdkrpc.Manifest {
 	return ToProtoManifest(m)
 }
 
+type streamSenderAdapter struct {
+	stream simsdkrpc.PluginService_MessageStreamServer
+}
+
+func (s *streamSenderAdapter) Send(msg *SimMessage) error {
+	return s.stream.Send(&simsdkrpc.PluginMessageEnvelope{
+		Content: &simsdkrpc.PluginMessageEnvelope_SimMessage{
+			SimMessage: ToProtoSimMessage(msg),
+		},
+	})
+}
+
 func ServeStream(handler StreamHandler, stream simsdkrpc.PluginService_MessageStreamServer) error {
+	// Inject StreamSender into handler if it supports it
+	if setter, ok := handler.(StreamSenderSetter); ok {
+		log.Printf("🔧 Calling SetStreamSender on stream handler")
+		setter.SetStreamSender(&streamSenderAdapter{stream})
+	}
+
 	for {
 		in, err := stream.Recv()
 		if err == io.EOF {
