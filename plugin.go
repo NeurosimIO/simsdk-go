@@ -98,10 +98,9 @@ func (s *streamSenderAdapter) Send(msg *SimMessage) error {
 }
 
 func ServeStream(handler StreamHandler, stream simsdkrpc.PluginService_MessageStreamServer) error {
-	// Inject StreamSender into handler if it supports it
 	if setter, ok := handler.(StreamSenderSetter); ok {
-		log.Println("🔧 Setting stream sender via SetStreamSender")
-		setter.SetStreamSender(&streamSenderAdapter{stream: stream})
+		sender := &streamSenderAdapter{stream}
+		setter.SetStreamSender(sender)
 	}
 
 	for {
