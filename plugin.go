@@ -97,13 +97,7 @@ func (s *streamSenderAdapter) Send(msg *SimMessage) error {
 	})
 }
 func ServeStream(handler StreamHandler, stream simsdkrpc.PluginService_MessageStreamServer) error {
-	if setter, ok := handler.(StreamSenderSetter); ok {
-		sender := &streamSenderAdapter{stream}
-		setter.SetStreamSender(sender)
-		log.Println("✅ SetStreamSender successfully installed on handler")
-	} else {
-		log.Println("⚠️ Handler does not implement StreamSenderSetter — stream sender not set")
-	}
+	log.Printf("🔍 ServeStream handler concrete type: %T", handler)
 
 	for {
 		in, err := stream.Recv()
@@ -119,10 +113,11 @@ func ServeStream(handler StreamHandler, stream simsdkrpc.PluginService_MessageSt
 		switch msg := in.Content.(type) {
 		case *simsdkrpc.PluginMessageEnvelope_Init:
 			log.Printf("⚙️ Received Init message")
+
+			// Inject stream sender into handler if supported
 			if setter, ok := handler.(StreamSenderSetter); ok {
 				log.Printf("📬 ServeStream: calling SetStreamSender for %s", msg.Init.ComponentId)
-				sender := &streamSenderAdapter{stream}
-				setter.SetStreamSender(sender)
+				setter.SetStreamSender(&streamSenderAdapter{stream})
 				log.Println("✅ SetStreamSender successfully installed on handler")
 			} else {
 				log.Println("⚠️ Handler does not implement StreamSenderSetter — stream sender not set")
