@@ -58,6 +58,7 @@ type PluginWithHandlers interface {
 	CreateComponentInstance(req CreateComponentRequest) error
 	DestroyComponentInstance(componentID string) error
 	HandleMessage(msg SimMessage) ([]SimMessage, error)
+	GetStreamHandler() StreamHandler
 }
 type CreateComponentRequest struct {
 	ComponentType string            `json:"componentType"`        // Corresponds to ComponentType.ID from manifest

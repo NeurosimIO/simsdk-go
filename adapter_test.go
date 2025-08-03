@@ -52,6 +52,10 @@ func (m *mockPlugin) HandleMessage(msg SimMessage) ([]SimMessage, error) {
 	}, nil
 }
 
+func (m *mockPlugin) GetStreamHandler() StreamHandler {
+	return &mockStreamHandler{}
+}
+
 func TestGRPCAdapter_GetManifest(t *testing.T) {
 	tests := []struct {
 		name     string

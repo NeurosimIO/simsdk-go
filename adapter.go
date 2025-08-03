@@ -50,6 +50,10 @@ func (g *grpcAdapter) HandleMessage(ctx context.Context, msg *simsdkrpc.SimMessa
 	return response, nil
 }
 
+func (g *grpcAdapter) MessageStream(stream simsdkrpc.PluginService_MessageStreamServer) error {
+	return ServeStream(g.plugin.GetStreamHandler(), stream)
+}
+
 // --- helper converters for adapter ---
 
 func fromProtoCreateComponentRequest(req *simsdkrpc.CreateComponentRequest) CreateComponentRequest {
