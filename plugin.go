@@ -50,6 +50,7 @@ type SimMessage struct {
 
 type StreamSender interface {
 	Send(msg *SimMessage) error
+	ComponentID() string
 }
 
 type StreamHandler interface {
@@ -86,7 +87,8 @@ func (m Manifest) ToProto() *simsdkrpc.Manifest {
 }
 
 type streamSenderAdapter struct {
-	stream simsdkrpc.PluginService_MessageStreamServer
+	stream      simsdkrpc.PluginService_MessageStreamServer
+	componentID string
 }
 
 func (s *streamSenderAdapter) Send(msg *SimMessage) error {
@@ -96,6 +98,11 @@ func (s *streamSenderAdapter) Send(msg *SimMessage) error {
 		},
 	})
 }
+
+func (s *streamSenderAdapter) ComponentID() string {
+	return s.componentID
+}
+
 func ServeStream(handler StreamHandler, stream simsdkrpc.PluginService_MessageStreamServer) error {
 	log.Printf("🔍 ServeStream handler concrete type: %T", handler)
 
@@ -117,7 +124,10 @@ func ServeStream(handler StreamHandler, stream simsdkrpc.PluginService_MessageSt
 			// Inject stream sender into handler if supported
 			if setter, ok := handler.(StreamSenderSetter); ok {
 				log.Printf("📬 ServeStream: calling SetStreamSender for %s", msg.Init.ComponentId)
-				setter.SetStreamSender(&streamSenderAdapter{stream})
+				setter.SetStreamSender(&streamSenderAdapter{
+					stream:      stream,
+					componentID: msg.Init.ComponentId,
+				})
 				log.Println("✅ SetStreamSender successfully installed on handler")
 			} else {
 				log.Println("⚠️ Handler does not implement StreamSenderSetter — stream sender not set")
