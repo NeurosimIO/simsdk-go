@@ -79,7 +79,7 @@ func (m Manifest) ToProto() *simsdkrpc.Manifest {
 	return ToProtoManifest(m)
 }
 
-func ServeStream(stream simsdkrpc.PluginService_MessageStreamServer, handler StreamHandler) error {
+func ServeStream(handler StreamHandler, stream simsdkrpc.PluginService_MessageStreamServer) error {
 	for {
 		in, err := stream.Recv()
 		if err == io.EOF {

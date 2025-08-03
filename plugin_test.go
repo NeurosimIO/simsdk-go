@@ -153,7 +153,7 @@ func TestServeStream_HandlesInitSimMessageShutdown(t *testing.T) {
 		},
 	}
 
-	err := ServeStream(stream, handler)
+	err := ServeStream(handler, stream)
 	require.NoError(t, err)
 
 	assert.Equal(t, "test-component", handler.receivedInit.ComponentId)
