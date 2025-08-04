@@ -8,6 +8,8 @@ import (
 	"google.golang.org/protobuf/types/known/wrapperspb"
 )
 
+var _ simsdkrpc.PluginServiceServer = (*grpcAdapter)(nil)
+
 type grpcAdapter struct {
 	plugin PluginWithHandlers
 	simsdkrpc.UnimplementedPluginServiceServer

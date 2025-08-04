@@ -2,6 +2,7 @@
 package simsdk
 
 import (
+	"fmt"
 	"io"
 	"log"
 
@@ -16,6 +17,15 @@ type Plugin interface {
 // StreamSenderSetter is implemented by plugins or handlers that accept a StreamSender.
 type StreamSenderSetter interface {
 	SetStreamSender(sender StreamSender)
+}
+
+// PluginWithHandlers extends Plugin to support dynamic component lifecycle and streaming messages.
+type PluginWithHandlers interface {
+	Plugin
+	CreateComponentInstance(req CreateComponentRequest) error
+	DestroyComponentInstance(componentID string) error
+	HandleMessage(msg SimMessage) ([]SimMessage, error)
+	GetStreamHandler() StreamHandler
 }
 
 // Manifest describes what this plugin provides
@@ -40,6 +50,11 @@ func GetAllRegisteredManifests() []Manifest {
 	return registeredManifests
 }
 
+// ToProto converts this Manifest to its protobuf representation.
+func (m Manifest) ToProto() *simsdkrpc.Manifest {
+	return ToProtoManifest(m)
+}
+
 type SimMessage struct {
 	MessageType string            `json:"messageType"`
 	MessageID   string            `json:"messageId"`
@@ -59,13 +74,6 @@ type StreamHandler interface {
 	OnShutdown(reason string)
 }
 
-type PluginWithHandlers interface {
-	Plugin
-	CreateComponentInstance(req CreateComponentRequest) error
-	DestroyComponentInstance(componentID string) error
-	HandleMessage(msg SimMessage) ([]SimMessage, error)
-	GetStreamHandler() StreamHandler
-}
 type CreateComponentRequest struct {
 	ComponentType string            `json:"componentType"`        // Corresponds to ComponentType.ID from manifest
 	ComponentID   string            `json:"componentId"`          // e.g., "locomotive-001"
@@ -82,16 +90,12 @@ type RegisterRequest struct {
 
 type RegisteredPlugins map[string]RegisterRequest
 
-func (m Manifest) ToProto() *simsdkrpc.Manifest {
-	return ToProtoManifest(m)
-}
-
-type streamSenderAdapter struct {
+type grpcStreamSender struct {
 	stream      simsdkrpc.PluginService_MessageStreamServer
 	componentID string
 }
 
-func (s *streamSenderAdapter) Send(msg *SimMessage) error {
+func (s *grpcStreamSender) Send(msg *SimMessage) error {
 	return s.stream.Send(&simsdkrpc.PluginMessageEnvelope{
 		Content: &simsdkrpc.PluginMessageEnvelope_SimMessage{
 			SimMessage: ToProtoSimMessage(msg),
@@ -99,51 +103,48 @@ func (s *streamSenderAdapter) Send(msg *SimMessage) error {
 	})
 }
 
-func (s *streamSenderAdapter) ComponentID() string {
+func (s *grpcStreamSender) ComponentID() string {
 	return s.componentID
 }
-
 func ServeStream(handler StreamHandler, stream simsdkrpc.PluginService_MessageStreamServer) error {
-	log.Printf("🔍 ServeStream handler concrete type: %T", handler)
+	log.Printf("ServeStream handler concrete type: %T", handler)
 
 	for {
 		in, err := stream.Recv()
 		if err == io.EOF {
-			log.Println("🔚 Stream closed by client")
+			log.Println("Stream closed by client")
 			return nil
 		}
 		if err != nil {
-			log.Printf("❌ Error receiving from stream: %v\n", err)
-			return err
+			return fmt.Errorf("ServeStream: failed to receive from stream: %w", err)
 		}
 
 		switch msg := in.Content.(type) {
 		case *simsdkrpc.PluginMessageEnvelope_Init:
-			log.Printf("⚙️ Received Init message")
+			log.Printf("Received Init message")
 
 			// Inject stream sender into handler if supported
 			if setter, ok := handler.(StreamSenderSetter); ok {
-				log.Printf("📬 ServeStream: calling SetStreamSender for %s", msg.Init.ComponentId)
-				setter.SetStreamSender(&streamSenderAdapter{
+				log.Printf("ServeStream: calling SetStreamSender for %s", msg.Init.ComponentId)
+				setter.SetStreamSender(&grpcStreamSender{
 					stream:      stream,
 					componentID: msg.Init.ComponentId,
 				})
-				log.Println("✅ SetStreamSender successfully installed on handler")
+				log.Println("SetStreamSender successfully installed on handler")
 			} else {
-				log.Println("⚠️ Handler does not implement StreamSenderSetter — stream sender not set")
+				log.Println("Handler does not implement StreamSenderSetter (stream sender not set)")
 			}
 
 			if err := handler.OnInit(msg.Init); err != nil {
-				log.Printf("⚠️ OnInit failed: %v\n", err)
-				return err
+				return fmt.Errorf("ServeStream: OnInit failed: %w", err)
 			}
 
 		case *simsdkrpc.PluginMessageEnvelope_SimMessage:
-			log.Printf("📨 Received SimMessage: %s", msg.SimMessage.MessageId)
+			log.Printf("Received SimMessage: %s", msg.SimMessage.MessageId)
 			sdkMsg := FromProtoSimMessage(msg.SimMessage)
 			responses, err := handler.OnSimMessage(sdkMsg)
 			if err != nil {
-				log.Printf("❌ OnSimMessage failed: %v\n", err)
+				log.Printf("OnSimMessage failed: %v\n", err)
 				_ = stream.Send(&simsdkrpc.PluginMessageEnvelope{
 					Content: &simsdkrpc.PluginMessageEnvelope_Nak{
 						Nak: &simsdkrpc.PluginNak{
@@ -156,14 +157,13 @@ func ServeStream(handler StreamHandler, stream simsdkrpc.PluginService_MessageSt
 			}
 
 			for _, resp := range responses {
-				log.Printf("📤 Sending response message: %s", resp.MessageID)
+				log.Printf("Sending response message: %s", resp.MessageID)
 				if err := stream.Send(&simsdkrpc.PluginMessageEnvelope{
 					Content: &simsdkrpc.PluginMessageEnvelope_SimMessage{
 						SimMessage: ToProtoSimMessage(resp),
 					},
 				}); err != nil {
-					log.Printf("❌ Failed to send SimMessage: %v\n", err)
-					return err
+					return fmt.Errorf("ServeStream: failed to send SimMessage: %w", err)
 				}
 			}
 
@@ -176,12 +176,12 @@ func ServeStream(handler StreamHandler, stream simsdkrpc.PluginService_MessageSt
 			})
 
 		case *simsdkrpc.PluginMessageEnvelope_Shutdown:
-			log.Println("🛑 Received Shutdown message")
+			log.Println("Received Shutdown message")
 			handler.OnShutdown(msg.Shutdown.Reason)
 			return nil
 
 		default:
-			log.Printf("⚠️ Unknown message type in PluginMessageEnvelope: %T\n", msg)
+			log.Printf("Unknown message type in PluginMessageEnvelope: %T\n", msg)
 		}
 	}
 }
