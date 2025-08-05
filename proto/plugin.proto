@@ -3,6 +3,7 @@ syntax = "proto3";
 package simsdkrpc;
 
 option go_package = "github.com/neurosimio/simsdk/rpc/simsdkrpc;simsdkrpc";
+option csharp_namespace = "Simsdkrpc";
 
 import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
