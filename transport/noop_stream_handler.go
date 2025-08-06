@@ -9,14 +9,18 @@ import (
 // Useful for senders that don't need to handle inbound streams.
 type NoOpStreamHandler struct{}
 
-func (h *NoOpStreamHandler) OnInit(*simsdkrpc.PluginInit) error {
-	return nil
-}
+// SetStreamSender implements simsdk.StreamSenderSetter but does nothing.
+func (h *NoOpStreamHandler) SetStreamSender(sender simsdk.StreamSender) {}
 
-func (h *NoOpStreamHandler) OnSimMessage(*simsdk.SimMessage) ([]*simsdk.SimMessage, error) {
+// OnInit implements simsdk.StreamHandler but does nothing.
+func (h *NoOpStreamHandler) OnInit(_ *simsdkrpc.PluginInit) error { return nil }
+
+// OnSimMessage implements simsdk.StreamHandler but does nothing.
+func (h *NoOpStreamHandler) OnSimMessage(_ *simsdk.SimMessage) ([]*simsdk.SimMessage, error) {
 	return nil, nil
 }
 
-func (h *NoOpStreamHandler) OnShutdown(reason string) {}
+// OnShutdown implements simsdk.StreamHandler but does nothing.
+func (h *NoOpStreamHandler) OnShutdown(_ string) {}
 
 var _ simsdk.StreamHandler = (*NoOpStreamHandler)(nil)
