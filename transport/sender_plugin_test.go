@@ -34,7 +34,7 @@ func (m *mockSender) Send(ctx context.Context, payload []byte, messageType strin
 	return nil
 }
 
-func (m *mockSender) Stop(ctx context.Context) error {
+func (m *mockSender) Close(ctx context.Context) error {
 	m.stopCalled = true
 	return nil
 }

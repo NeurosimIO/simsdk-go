@@ -53,7 +53,7 @@ func (p *BaseSenderPlugin) DestroyComponentInstance(id string) error {
 		return fmt.Errorf("component not found: %s", id)
 	}
 
-	if err := sender.Stop(context.Background()); err != nil {
+	if err := sender.Close(context.Background()); err != nil {
 		return fmt.Errorf("failed to stop sender: %w", err)
 	}
 

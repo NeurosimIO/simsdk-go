@@ -10,7 +10,7 @@ import (
 type TransportSender interface {
 	Start(ctx context.Context) error
 	Send(ctx context.Context, payload []byte, messageType string) error
-	Stop(ctx context.Context) error
+	Close(ctx context.Context) error
 }
 
 // TransportReceiver defines the generic interface for receiving messages.
