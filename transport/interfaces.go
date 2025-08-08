@@ -1,3 +1,4 @@
+// Package transport provides interfaces and factories for message transport mechanisms.
 package transport
 
 import (
@@ -20,14 +21,11 @@ type TransportReceiver interface {
 	GetInboundChan() <-chan simsdk.SimMessage
 }
 
-// StreamHandlerWithSender is a StreamHandler that can also accept a StreamSender.
-type StreamHandlerWithSender interface {
-	simsdk.StreamHandler
-	simsdk.StreamSenderSetter
-}
-
 // SenderFactory creates a TransportSender from a config type.
-type SenderFactory func(config any) TransportSender
+type SenderFactory func(req simsdk.CreateComponentRequest) TransportSender
 
 // ReceiverFactory creates a TransportReceiver from a config type.
-type ReceiverFactory func(cfg simsdk.CreateComponentRequest) TransportReceiver
+type ReceiverFactory func(req simsdk.CreateComponentRequest) TransportReceiver
+
+// StreamHandlerFactory creates a StreamHandler.
+type StreamHandlerFactory func() simsdk.StreamHandler
