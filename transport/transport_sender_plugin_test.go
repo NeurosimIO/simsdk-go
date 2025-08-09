@@ -11,19 +11,18 @@ import (
 )
 
 type mockSender struct {
-	started   bool
-	closed    bool
-	sentType  string
-	sentBytes []byte
-	startErr  error
-	sendErr   error
-	closeErr  error
+	started bool
+	closed  bool
+
+	last     simsdk.SimMessage
+	startErr error
+	sendErr  error
+	closeErr error
 }
 
 func (m *mockSender) Start(context.Context) error { m.started = true; return m.startErr }
-func (m *mockSender) Send(_ context.Context, payload []byte, messageType string) error {
-	m.sentType = messageType
-	m.sentBytes = payload
+func (m *mockSender) SendSim(_ context.Context, msg simsdk.SimMessage) error {
+	m.last = msg
 	return m.sendErr
 }
 func (m *mockSender) Close(context.Context) error { m.closed = true; return m.closeErr }
@@ -108,14 +107,11 @@ func TestSenderPlugin_TableDriven(t *testing.T) {
 			// Inspect underlying mock if applicable
 			if s, ok := getSenderForTest(plugin, "c1"); ok {
 				ms := s.(*mockSender)
-				// started true if create succeeded
 				require.True(t, ms.started)
-				// send assertions
 				if tt.doHandle {
-					require.Equal(t, tt.expectSendType, ms.sentType)
-					require.Equal(t, tt.expectSendBytes, ms.sentBytes)
+					require.Equal(t, tt.expectSendType, ms.last.MessageType)
+					require.Equal(t, tt.expectSendBytes, ms.last.Payload)
 				}
-				// closed after destroy
 				require.True(t, ms.closed)
 			}
 		})
@@ -123,7 +119,6 @@ func TestSenderPlugin_TableDriven(t *testing.T) {
 }
 
 // getSenderForTest reaches into the concrete plugin to fetch the instance.
-// This relies on the concrete type being baseSenderPlugin; adjust if renamed.
 func getSenderForTest(p simsdk.PluginWithHandlers, id string) (TransportSender, bool) {
 	b, ok := p.(*baseSenderPlugin)
 	if !ok {

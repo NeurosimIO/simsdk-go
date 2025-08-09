@@ -8,9 +8,10 @@ import (
 )
 
 // TransportSender defines the generic interface for sending messages.
+// TransportSender sends a complete SimMessage (ID, type, payload, metadata).
 type TransportSender interface {
 	Start(ctx context.Context) error
-	Send(ctx context.Context, payload []byte, messageType string) error
+	SendSim(ctx context.Context, msg simsdk.SimMessage) error
 	Close(ctx context.Context) error
 }
 
@@ -29,3 +30,9 @@ type ReceiverFactory func(req simsdk.CreateComponentRequest) TransportReceiver
 
 // StreamHandlerFactory creates a StreamHandler.
 type StreamHandlerFactory func() simsdk.StreamHandler
+
+// FullSender can send the whole message (ID, type, payload, metadata).
+// If a TransportSender also implements this, the SDK will prefer it.
+type FullSender interface {
+	SendSim(ctx context.Context, msg simsdk.SimMessage) error
+}
